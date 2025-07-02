@@ -1,0 +1,297 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #800020;
+    margin: 0;
+    padding: 0;
+    color: #800020; /* Standardized body text color */
+    line-height: 1.5;
+    font-size: 14px; /* Base font size */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    max-width: 180px;
+    margin-bottom: 10px;
+}
+
+.countdown {
+    font-size: 14px; /* Standardized */
+    color: #800020;
+    margin-bottom: 20px;
+    font-weight: 600; /* Consistent weight */
+}
+
+h1, h2 {
+    color: #ffffff; /* White for headings */
+    font-weight: 700; /* Bold */
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-size: 18px; /* Standardized heading size */
+}
+
+.voting-area {
+    width: 100%;
+    overflow: hidden;
+}
+
+.candidate-card {
+    width: 100%;
+    max-width: 100%;
+    background: linear-gradient(135deg, #ffffff, #f5f5f5);
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: #800020;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.candidate-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* One per row */
+    gap: 10px;
+    width: 100%;
+}
+
+.candidate-info {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between left section and text */
+    width: 100%;
+    max-width: 1000px; /* Limit total width to prevent text cutoff */
+    margin: 0 auto; /* Center the content */
+}
+
+.left-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between photo and checkbox */
+}
+
+.candidate-text {
+    text-align: left;
+    max-width: 70%; /* Limit text width to leave margin on right */
+    flex-grow: 1;
+}
+
+.candidate-photo {
+    width: 90px; /* Increased by 1.5x from 60px */
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.vote-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.vote-count {
+    font-size: 14px; /* Standardized */
+    color: #800020;
+    font-weight: 600; /* Consistent weight */
+    margin-top: 5px;
+}
+
+.checkbox-label {
+    font-size: 14px; /* Standardized */
+    color: #800020;
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 100%; /* Ensure full visibility */
+    padding-left: 5px; /* Minimal padding */
+    font-weight: 400; /* Normal weight */
+}
+
+.candidate-code {
+    font-size: 14px; /* Standardized */
+    margin: 3px 0;
+    color: #800020;
+    font-weight: 600; /* Consistent weight */
+}
+
+.candidate-name {
+    margin: 5px 0;
+    font-size: 16px; /* Slightly larger for hierarchy */
+    color: #800020;
+    font-weight: 700; /* Bold */
+    text-transform: uppercase; /* CAPSLOCK */
+}
+
+.candidate-gestor {
+    font-size: 14px; /* Standardized, previously 12px */
+    margin: 3px 0;
+    color: #800020;
+    font-weight: 400; /* Normal weight */
+}
+
+.candidate-gestor strong {
+    font-size: 14px; /* Standardized */
+    color: #000000; /* Black for "Gestor:" */
+    font-weight: 700; /* Bold */
+}
+
+.candidate-desc-full {
+    font-size: 14px; /* Standardized */
+    text-align: justify; /* Justified layout */
+    color: #800020;
+    line-height: 1.2;
+    font-weight: 400; /* Normal weight */
+}
+
+.candidate-desc-full strong {
+    font-size: 14px; /* Standardized */
+    color: #000000; /* Black for "Justificativa:" */
+    font-weight: 700; /* Bold */
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    padding: 12px 25px; /* Uniform padding */
+    background-color: #c0392b;
+    color: #ffffff; /* White for buttons */
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 600; /* Consistent weight */
+    font-size: 14px; /* Standardized */
+    border: 2px solid #ffffff; /* Add border */
+    transition: background-color 0.3s, transform 0.2s;
+    width: 180px; /* Uniform width */
+    height: 60px; /* Uniform height */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.btn:hover {
+    background-color: #a93226;
+    transform: scale(1.05);
+}
+
+.submit-btn {
+    margin-right: 10px;
+}
+
+.back-btn {
+}
+
+.vote-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 14px;
+    width: auto; /* Reset for mobile button */
+    height: auto; /* Reset for mobile button */
+    border: 2px solid #ffffff; /* Add border */
+}
+
+.flash-messages {
+    font-size: 14px; /* Standardized */
+    background-color: #e74c3c;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    list-style: none;
+    color: #ffffff; /* White for flash messages */
+    text-align: center;
+    font-weight: 600; /* Consistent weight */
+}
+
+.resultado-lista {
+    font-size: 14px; /* Standardized */
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+}
+
+.resultado-lista li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.thumbnail {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    margin-right: 10px;
+    object-fit: cover;
+    border: 2px solid #c0392b;
+}
+
+@media (max-width: 600px) {
+    .candidate-grid-desktop {
+        display: none;
+    }
+    .candidate-card-mobile, .candidate-card-desktop {
+        display: block;
+    }
+    .candidate-grid-mobile {
+        display: grid;
+    }
+    .container {
+        margin: 10px;
+        padding: 10px;
+    }
+    .voting-area {
+        height: auto;
+    }
+    .candidate-photo {
+        width: 75px; /* Increased by 1.5x from 50px */
+        height: 75px;
+    }
+    .candidate-name {
+        font-size: 14px; /* Standardized */
+    }
+    .candidate-gestor {
+        font-size: 14px; /* Standardized */
+    }
+    .candidate-desc-full {
+        font-size: 14px; /* Standardized */
+        word-wrap: break-word; /* Ensure wrapping */
+        max-width: 80%; /* Limit width to wrap before edge */
+    }
+    .resultado-lista {
+        font-size: 14px; /* Standardized */
+        grid-template-columns: 1fr;
+    }
+    .btn {
+        padding: 10px 20px; /* Adjust for mobile */
+        width: 140px; /* Slightly smaller for mobile */
+        height: 50px; /* Slightly smaller for mobile */
+    }
+    .submit-btn {
+        padding: 10px 20px;
+    }
+    .back-btn {
+        padding: 10px 20px;
+    }
+    .vote-btn {
+        padding: 8px 15px;
+        width: auto;
+        height: auto;
+        border: 2px solid #ffffff; /* Add border */
+    }
+}
