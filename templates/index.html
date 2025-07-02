@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Votação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo">
+        <h1>Sistema de Votação</h1>
+        <p>Bem-vindo ao sistema de votação. Clique abaixo para votar ou ver resultados:</p>
+        <a href="{{ url_for('votar') }}" class="btn">Votar</a>
+    </div>
+</body>
+</html>

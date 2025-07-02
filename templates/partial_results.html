@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Parciais Q2/2025</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' https://cdnjs.cloudflare.com;">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo">
+        <div id="countdown" class="countdown">Tempo disponível para votação</div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for msg in messages %}
+                        <li style="color: white;">{{ msg }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <div class="voting-area" id="voting-area">
+            <div class="candidate-grid">
+                <h2>Profissionais - Resultados Parciais</h2>
+                {% for id, data in partial_results.items() if id.startswith('P') %}
+                    <div class="candidate-card">
+                        <div class="candidate-info">
+                            <div class="left-section">
+                                <img src="{{ url_for('static', filename='img/' + data['foto']) }}" alt="{{ data['nome'] }}" class="candidate-photo">
+                                <div class="vote-section">
+                                    <span class="vote-count">{{ data['votos'] }} {{ "voto" if data['votos'] == 1 else "votos" }}</span>
+                                </div>
+                            </div>
+                            <div class="candidate-text">
+                                <h2 class="candidate-code">{{ id }}</h2>
+                                <h3 class="candidate-name">{{ data['nome']|upper }}</h3>
+                                <p class="candidate-gestor"><strong>Gestor:</strong> {{ data['gestor'] }}</p>
+                                <p class="candidate-desc-full"><strong>Justificativa:</strong> {% set candidate = candidates|selectattr('id', 'equalto', id)|list|first %} {{ candidate.desc if candidate else 'Não disponível' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <h2>Líderes - Resultados Parciais</h2>
+                {% for id, data in partial_results.items() if id.startswith('L') %}
+                    <div class="candidate-card">
+                        <div class="candidate-info">
+                            <div class="left-section">
+                                <img src="{{ url_for('static', filename='img/' + data['foto']) }}" alt="{{ data['nome'] }}" class="candidate-photo">
+                                <div class="vote-section">
+                                    <span class="vote-count">{{ data['votos'] }} {{ "voto" if data['votos'] == 1 else "votos" }}</span>
+                                </div>
+                            </div>
+                            <div class="candidate-text">
+                                <h2 class="candidate-code">{{ id }}</h2>
+                                <h3 class="candidate-name">{{ data['nome']|upper }}</h3>
+                                <p class="candidate-gestor"><strong>Gestor:</strong> {{ data['gestor'] }}</p>
+                                <p class="candidate-desc-full"><strong>Justificativa:</strong> {% set candidate = candidates|selectattr('id', 'equalto', id)|list|first %} {{ candidate.desc if candidate else 'Não disponível' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <form method="GET" id="vote-form">
+                    <a href="{{ url_for('index') }}" class="btn back-btn">SAIR</a>
+                </form>
+            </div>
+        </div>
+        <div id="partial-results"></div>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+    </div>
+</body>
+</html>
