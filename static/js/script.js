@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const now = new Date().getTime();
         const distance = deadline - now;
         if (distance < 0) {
-            countdown.innerHTML = "⛔ Votação Encerrada ⛔";
+            countdown.innerHTML = "⛔ Votação Encerrada";
             return;
         }
         const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -37,6 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Form submitted to:", window.location.origin + '/votar'); // Debug log
         const profs = document.querySelectorAll('input[name="profissionais"]:checked');
         const lideres = document.querySelectorAll('input[name="lideres"]:checked');
+        // Depuração detalhada do DOM
+        console.log("All profs checkboxes:", document.querySelectorAll('input[name="profissionais"]'));
+        console.log("All lideres checkboxes:", document.querySelectorAll('input[name="lideres"]'));
         console.log("Selected profs count:", profs.length, "values:", Array.from(profs).map(cb => cb.value)); // Debug log
         console.log("Selected lideres count:", lideres.length, "values:", Array.from(lideres).map(cb => cb.value)); // Debug log
         if (profs.length < 2 || lideres.length < 2) {
