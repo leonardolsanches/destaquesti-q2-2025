@@ -35,13 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
     voteForm.addEventListener('submit', function (e) {
         e.preventDefault();
         console.log("Form submitted to:", window.location.origin + '/votar'); // Debug log
-        const profs = document.querySelectorAll('input[name="profissionais"]:checked');
-        const lideres = document.querySelectorAll('input[name="lideres"]:checked');
-        // Depuração detalhada do DOM
-        console.log("All profs checkboxes:", document.querySelectorAll('input[name="profissionais"]'));
-        console.log("All lideres checkboxes:", document.querySelectorAll('input[name="lideres"]'));
-        console.log("Selected profs count:", profs.length, "values:", Array.from(profs).map(cb => cb.value)); // Debug log
-        console.log("Selected lideres count:", lideres.length, "values:", Array.from(lideres).map(cb => cb.value)); // Debug log
+        // Captura manual dos checkboxes
+        const allProfs = document.querySelectorAll('input[name="profissionais"]');
+        const allLideres = document.querySelectorAll('input[name="lideres"]');
+        const profs = Array.from(allProfs).filter(cb => cb.checked);
+        const lideres = Array.from(allLideres).filter(cb => cb.checked);
+        console.log("All profs checkboxes:", allProfs);
+        console.log("All lideres checkboxes:", allLideres);
+        console.log("Selected profs count:", profs.length, "values:", profs.map(cb => cb.value)); // Debug log
+        console.log("Selected lideres count:", lideres.length, "values:", lideres.map(cb => cb.value)); // Debug log
         if (profs.length < 2 || lideres.length < 2) {
             alert("Por favor, selecione pelo menos 2 profissionais e 2 líderes. Contagem: Profs=" + profs.length + ", Líderes=" + lideres.length);
             return;
