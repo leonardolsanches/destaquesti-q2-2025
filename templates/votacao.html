@@ -1,79 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<title>Votação - Profissionais e Líderes</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8" />
+  <title>Votação dos Destaques da TI em Q2/2025</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
+  <header>
+    <img src="{{ url_for('static', filename='img/logo_claro.png') }}" alt="Logo Claro" class="logo-claro" />
+    <h1>Votação dos Destaques da TI em Q2/2025</h1>
+    <a href="{{ url_for('logout') }}">Sair</a>
+  </header>
 
-<div class="votacao-header">
-  <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" />
-  <h1>Votação dos Destaques da TI em Q2/2025</h1>
-</div>
-
-<a href="{{ url_for('logout') }}">Sair</a>
-
-<form method="post" action="{{ url_for('votacao') }}">
-  <h2>Profissionais (selecione 1)</h2>
-  <div class="cards-container">
-  {% for p in dados.profissionais %}
-    <label class="card {% if resultado.profissionais.get(p.id, 0) > 0 %}selected{% endif %}">
-      <input type="radio" name="voto_profissional" value="{{ p.id }}" />
-      <img src="{{ url_for('static', filename='img/' + p.imagem) }}" alt="{{ p.nome }}" />
-      <div class="card-info">
-        <strong>{{ p.id }} - {{ p.nome }}</strong>
-        <em>Gestor: {{ p.gestor }}</em>
-        <div class="justificativa">{{ p.justificativa }}</div>
-        <div class="vote-count">Votos: <strong>{{ resultado.profissionais.get(p.id, 0) }}</strong></div>
-      </div>
-    </label>
-  {% endfor %}
-  </div>
-
-  <h2>Líderes (selecione 1)</h2>
-  <div class="cards-container">
-  {% for l in dados.lideres %}
-    <label class="card {% if resultado.lideres.get(l.id, 0) > 0 %}selected{% endif %}">
-      <input type="radio" name="voto_lider" value="{{ l.id }}" />
-      <img src="{{ url_for('static', filename='img/' + l.imagem) }}" alt="{{ l.nome }}" />
-      <div class="card-info">
-        <strong>{{ l.id }} - {{ l.nome }}</strong>
-        <em>Gestor: {{ l.gestor }}</em>
-        <div class="justificativa">{{ l.justificativa }}</div>
-        <div class="vote-count">Votos: <strong>{{ resultado.lideres.get(l.id, 0) }}</strong></div>
-      </div>
-    </label>
-  {% endfor %}
-  </div>
-
-  <button type="submit" class="btn-votar">Votar</button>
-</form>
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        {% for category, message in messages %}
-          <p class="{{ category }}">{{ message }}</p>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for message in messages %}
+          <div class="flash-msg">{{ message }}</div>
         {% endfor %}
-        <button id="modal-close">Fechar</button>
-        <a href="{{ url_for('resultado') }}">Ver resultado</a>
       </div>
-    </div>
-    <script>
-      const modal = document.getElementById('modal');
-      const btnClose = document.getElementById('modal-close');
-      if(modal){
-        modal.style.display = 'block';
-        btnClose.onclick = () => { modal.style.display = 'none'; }
-        window.onclick = (event) => {
-          if(event.target === modal) modal.style.display = 'none';
-        }
-      }
-    </script>
-  {% endif %}
-{% endwith %}
+    {% endif %}
+  {% endwith %}
 
+  <form method="POST" action="{{ url_for('votacao') }}">
+    <h2>Profissionais (selecione 1)</h2>
+    <div class="cards-container">
+      {% for p in profissionais %}
+        <label class="card {% if p.bloqueado %}card-disabled{% endif %}">
+          <input type="radio" name="profissional" value="{{ p.id }}" {% if p.bloqueado %}disabled{% endif %} />
+          <img src="{{ url_for('static', filename='img/' + p.imagem) }}" alt="{{ p.nome }}" />
+          <div class="card-info">
+            <strong>{{ p.id }} - {{ p.nome }}</strong>
+            <em>Gestor: {{ p.gestor }}</em>
+            <p>{{ p.justificativa }}</p>
+            <div class="vote-count">Votos: {{ p.votos }}</div>
+          </div>
+        </label>
+      {% endfor %}
+    </div>
+
+    <h2>Líderes (selecione 1)</h2>
+    <div class="cards-container">
+      {% for l in lideres %}
+        <label class="card {% if l.bloqueado %}card-disabled{% endif %}">
+          <input type="radio" name="lider" value="{{ l.id }}" {% if l.bloqueado %}disabled{% endif %} />
+          <img src="{{ url_for('static', filename='img/' + l.imagem) }}" alt="{{ l.nome }}" />
+          <div class="card-info">
+            <strong>{{ l.id }} - {{ l.nome }}</strong>
+            <em>Gestor: {{ l.gestor }}</em>
+            <p>{{ l.justificativa }}</p>
+            <div class="vote-count">Votos: {{ l.votos }}</div>
+          </div>
+        </label>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn-votar">Votar</button>
+  </form>
 </body>
 </html>

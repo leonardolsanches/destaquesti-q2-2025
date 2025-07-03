@@ -1,8 +1,12 @@
 services:
   - type: web
-    name: votacao-claro-q2-2025
+    name: destaquesti-q2-2025
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT app:app
-    staticFiles: static/
+    startCommand: python app.py
+    envVars:
+      - key: FLASK_ENV
+        value: production
+    ports:
+      - 10000

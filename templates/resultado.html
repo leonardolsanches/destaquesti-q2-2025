@@ -2,65 +2,191 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Resultado da Votação</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+
+  h1 {
+    color: #7F1734;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  #chart-container {
+    max-width: 1000px;
+    margin: 0 auto 50px auto;
+  }
+
+  canvas {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .legend {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+  }
+
+  .legend-profissional {
+    background-color: #7F1734; /* Bordeaux */
+  }
+
+  .legend-lider {
+    background-color: #D4AA00; /* Dijon */
+  }
+
+  .logo-claro {
+    height: 50px;
+    width: auto; /* Mantém proporção */
+    display: block;
+    margin: 0 auto 20px auto;
+  }
+</style>
+
 </head>
 <body>
 
-<div class="result-container">
-  <h1>Resultado Parcial da Votação</h1>
+<h1>Resultado da Votação - Destaques Q2/2025</h1>
 
-  <h2>Profissionais</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Código</th>
-        <th>Nome</th>
-        <th>Gestor</th>
-        <th>Justificativa</th>
-        <th>Votos</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for p in dados.profissionais %}
-      <tr>
-        <td>{{ p.id }}</td>
-        <td>{{ p.nome }}</td>
-        <td>{{ p.gestor }}</td>
-        <td>{{ p.justificativa }}</td>
-        <td>{{ resultado.profissionais.get(p.id, 0) }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<img src="{{ url_for('static', filename='img/logo_claro.png') }}" alt="Logo Claro" class="logo-claro" />
 
-  <h2>Líderes</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Código</th>
-        <th>Nome</th>
-        <th>Gestor</th>
-        <th>Justificativa</th>
-        <th>Votos</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for l in dados.lideres %}
-      <tr>
-        <td>{{ l.id }}</td>
-        <td>{{ l.nome }}</td>
-        <td>{{ l.gestor }}</td>
-        <td>{{ l.justificativa }}</td>
-        <td>{{ resultado.lideres.get(l.id, 0) }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <a href="{{ url_for('votacao') }}" class="btn-voltar">Voltar para Votação</a>
-  <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
+<div id="chart-container">
+  <canvas id="resultadoChart"></canvas>
 </div>
+
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-color legend-profissional"></div>Profissionais
+  </div>
+  <div class="legend-item">
+    <div class="legend-color legend-lider"></div>Líderes
+  </div>
+</div>
+
+<script>
+  const candidatos = {{ candidatos | tojson }};
+
+  candidatos.sort((a,b) => {
+    if (a.tipo === b.tipo) return a.id.localeCompare(b.id);
+    return a.tipo === "PROFISSIONAL" ? -1 : 1;
+  });
+
+  const labels = candidatos.map(c => `${c.id} - ${c.nome}`);
+  const votos = candidatos.map(c => c.votos || 0);
+  const imagens = candidatos.map(c => c.imagem);
+  const colors = candidatos.map(c => c.tipo === "PROFISSIONAL" ? '#7F1734' : '#D4AA00');
+
+  const ctx = document.getElementById('resultadoChart').getContext('2d');
+
+  const imagePlugin = {
+    id: 'imagePlugin',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      const meta = chart.getDatasetMeta(0);
+      meta.data.forEach((bar, index) => {
+        // Desenha imagem no topo da barra
+        const img = new Image();
+        img.src = imagens[index];
+        const imgSize = 48;
+        const xPos = bar.x - imgSize / 2;
+        const yPos = bar.y - imgSize - 10;
+        img.onload = () => {
+          ctx.drawImage(img, xPos, yPos, imgSize, imgSize);
+        };
+        // Desenha total absoluto de votos no centro da barra
+        const voteCount = votos[index];
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(0,0,0,0.7)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        const textX = bar.x;
+        const textY = bar.y + bar.height / 2;
+        ctx.fillText(voteCount, textX, textY);
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+      });
+      ctx.restore();
+    }
+  };
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Votos',
+        data: votos,
+        backgroundColor: colors,
+        borderRadius: 6,
+        maxBarThickness: 40,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: {
+        duration: 1000,
+        easing: 'easeInOutQuad'
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            maxRotation: 45,
+            minRotation: 45,
+            autoSkip: false,
+            font: { size: 12, weight: 'bold', family: 'Arial' }
+          }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1, font: { size: 12 } },
+          grid: { borderDash: [4, 6] }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => `Votos: ${ctx.parsed.y}` }
+        }
+      },
+      plugins: [imagePlugin]
+    },
+  });
+</script>
 
 </body>
 </html>

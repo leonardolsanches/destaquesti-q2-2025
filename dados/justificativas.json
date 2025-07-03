@@ -8,111 +8,111 @@
       "justificativa": "Atuação essencial para o sucesso do projeto PIX Recorrente para o Residencial, demonstrou comprometimento com os prazos e entregou seu trabalho com qualidade."
     },
     {
-      "id": "P10",
-      "nome": "Wilson Neves",
-      "imagem": "P10.png",
-      "gestor": "Marcus",
-      "justificativa": "Liderança técnica nos projetos modernização do SOA e upgrade do SMP que entregou o primeiro rollout em Bauru-SP e habilitou os próximos rollouts em aproximidamente 10 milhões de assinantes da rede HFC."
-    },
-    {
       "id": "P2",
       "nome": "Camila Faraco",
       "imagem": "P2.png",
-      "gestor": "Mario",
+      "gestor": "Mezardi",
       "justificativa": "Liderou o projeto, garantindo que as atividades fossem feitas no prazo e com qualidade na Implementação do PIX Automático, feature do Open Finance, iniciativa BACEN substituta do Débito Automático."
     },
     {
       "id": "P3",
       "nome": "Diogo Camada",
       "imagem": "P3.png",
-      "gestor": "Mezadri",
-      "justificativa": "Foi fundamental no projeto MOVE2VIRGINIA com protagonismo e liderança, grande capacidade de alinhamento e entendimento de aspectos cruciais para o sucesso. Também vem assumindo responsabilidades no sistema de Ressarcimento, evidenciando forte senso de pertencimento e comprometimento."
+      "gestor": "Marcus",
+      "justificativa": "Foi fundamental no projeto MOVE2VIRGINIA com protagonismo e liderança, grande capacidade de alinhamento e entendimento de aspectos cruciais para o sucesso."
     },
     {
       "id": "P4",
       "nome": "Erick Nakamura",
       "imagem": "P4.png",
-      "gestor": "Mezadri",
-      "justificativa": "Relevância na implantação do faturador pré-pago para o projeto NFCom e uma forte atuação que garantiu estabilidade dos processos e assegurou a aderência técnica às necessidades de detalhamento do consumo dos segmentos Pré-Pago, Controle Facil e Tradicional."
+      "gestor": "Wollinger",
+      "justificativa": "Relevância na implantação do faturador pré-pago para o projeto NFCom e uma forte atuação que garantiu estabilidade dos processos e assegurou a aderência técnica."
     },
     {
       "id": "P5",
       "nome": "José Antenor Penna",
       "imagem": "P5.png",
       "gestor": "Wollinger",
-      "justificativa": "Colaborador mostrou senso de \"dono\" ao liderar o processo de UAT da frente de Cobilling Sainte do NFCOM, até sua implementação final. Além disso, aceitou o desafio de assumir o sistema de faturamento Orbill, demonstrando comprometimento com auto desenvolvimento."
+      "justificativa": "Colaborador mostrou senso de \"dono\" ao liderar o processo de UAT da frente de Cobilling Sainte do NFCOM, até sua implementação final."
     },
     {
       "id": "P6",
       "nome": "Luiz Fernando Gonçalves de Mattos",
       "imagem": "P6.png",
-      "gestor": "Wollinger",
-      "justificativa": "Colaborador tem se mostrado um profissional dedicado e participado ativamente de projetos importantes como NFCOM, RGC e Código Único, sempre com alto nível técnico. Além disso, foi responsável por uma entrega fundamental no serviço de Acordos de Pagamento, que solucionou um problema crítico no sistema Solar."
+      "gestor": "Mario",
+      "justificativa": "Colaborador dedicado e participou ativamente de projetos importantes como NFCOM, RGC e Código Único, sempre com alto nível técnico."
     },
     {
       "id": "P7",
       "nome": "Rafael dos Santos",
       "imagem": "P7.png",
-      "gestor": "Waldir",
-      "justificativa": "Referência técnica incontestável, facilitador para diversos times e stakeholders. Durante o Q2, fez a entrega do projeto de Melhoria de Heapsize que trouxe a simplificação de atributos de catálogo e resolveu o problema de quebra de carrinho devido à quantidade de atributos de produtos na jornada do Solar."
+      "gestor": "Mezardi",
+      "justificativa": "Referência técnica incontestável, facilitador para diversos times e stakeholders, entregou melhorias significativas no sistema Solar."
     },
     {
       "id": "P8",
       "nome": "Robson Carvalho de Oliveira",
       "imagem": "P8.png",
-      "gestor": "Mario",
-      "justificativa": "Liderou o projeto para evitar compartilhamento de ShortCode de SMS por parceiro junto ao MSE, desenvolveu a solução garantindo que as atividades fossem feitas no prazo e com qualidade."
+      "gestor": "Wollinger",
+      "justificativa": "Liderou projeto para evitar compartilhamento de ShortCode de SMS por parceiro junto ao MSE, garantindo a qualidade das entregas."
     },
     {
       "id": "P9",
       "nome": "Vagner Vieira",
       "imagem": "P9.png",
-      "gestor": "Aline",
-      "justificativa": "Excelente trabalho a frente do núcleo de performance melhorando os indicadores do ambiente Salesforce em mais de 40% quando comparado com dezembro/24."
+      "gestor": "Marcus",
+      "justificativa": "Excelente trabalho à frente do núcleo de performance, melhorando indicadores do ambiente Salesforce em mais de 40%."
+    },
+    {
+      "id": "P10",
+      "nome": "Wilson Neves",
+      "imagem": "P10.png",
+      "gestor": "Mario",
+      "justificativa": "Liderança técnica nos projetos modernização do SOA e upgrade do SMP com rollouts para milhões de assinantes."
     }
   ],
   "lideres": [
     {
       "id": "L1",
-      "nome": "André Nunes",
+      "nome": "André Salgado",
       "imagem": "L1.png",
-      "gestor": "Mario",
-      "justificativa": "Liderou o projeto de upgrade tecnológico, onde trazemos para Claro a última versão do API Gateway da Google com entregas de uma nova plataforma e uma fundação na infra de GCP. Atuou com muita resiliência e negociação com outros times como Infra, Operação e CCoE."
+      "gestor": "Aline",
+      "justificativa": "Destacado na liderança dos projetos PME, peça chave nas transformações, com foco e comprometimento excepcionais."
     },
     {
       "id": "L2",
-      "nome": "André Salgado",
+      "nome": "Eduardo Padilha",
       "imagem": "L2.png",
-      "gestor": "Aline",
-      "justificativa": "André Salgado tem se destacado de forma notável na liderança dos projetos PME, sendo uma peça chave nas transformações em curso. Profissional sempre disponível, a determinação e o foco em conduzir projetos, mesmo diante de desafios, refletem seu comprometimento e profissionalismo. Soube lidar com a velocidade exigida do negócio."
+      "gestor": "Fabio",
+      "justificativa": "Liderou seu time com empenho, entregando antecipadamente o projeto Portabilidade Cruzada – CPC, reconhecido pela diretoria."
     },
     {
       "id": "L3",
-      "nome": "Eduardo Padilha",
+      "nome": "Rosangela Teressani",
       "imagem": "L3.png",
-      "gestor": "Marcus",
-      "justificativa": "Liderou seu time com muito empenho superando obstáculos e conseguindo realizar a entrega antecipada na entrega do Portabilidade Cruzada – CPC, projeto estratégico para o PME com resultado reconhecido pela diretoria de negócios."
+      "gestor": "Aline",
+      "justificativa": "Dedicação incansável, responsável por múltiplas frentes críticas simultâneas com atenção detalhada para mitigar riscos."
     },
     {
       "id": "L4",
-      "nome": "Fabio Brandão Cavalcanti",
+      "nome": "Tiago Barbosa",
       "imagem": "L4.png",
-      "gestor": "Wollinger",
-      "justificativa": "Liderança nos sistemas da frente empresarial, foi essencial como facilitador e solucionador na frente do Cobilling Sainte do projeto NFCOM, garantindo a realização dos testes e a implantação na data acordada junto ao seu time e fornecedor. Demonstra elevado comprometimento e protagonismo nos temas sob sua gestão, como RGC, NFCOM, Reforma Tributária, entre outros."
+      "gestor": "Mezardi",
+      "justificativa": "Realizou trabalho excepcional com o time, gerenciando múltiplos projetos simultâneos e entregando alto valor ao negócio."
     },
     {
       "id": "L5",
-      "nome": "Rosangela Teressani",
+      "nome": "André Nunes",
       "imagem": "L5.png",
-      "gestor": "Aline",
-      "justificativa": "Possui uma dedicação incansável e se destacou recentemente por estar responsável por muitas frentes críticas e importantes ao mesmo tempo, com destaque ao projeto NFCOM Travas e 6 frentes paralelas do RGC. É muito responsável e busca um alinhamento minucioso entre as frentes envolvidas para mitigar os riscos do projeto e viabilizar a entrega."
+      "gestor": "Mario",
+      "justificativa": "Liderou projeto de upgrade tecnológico do API Gateway da Google com resiliência e negociação eficaz."
     },
     {
       "id": "L6",
-      "nome": "Tiago Barbosa",
+      "nome": "Fabio Brandão Cavalcanti",
       "imagem": "L6.png",
-      "gestor": "Aline",
-      "justificativa": "Realizado um trabalho excepcional junto com o seu time, gerando grande valor para o negócio. Sua habilidade em gerenciar múltiplos projetos simultaneamente, mantendo um alto nível de entrega e resultados, é admirável. A dedicação e o comprometimento não apenas contribuem para o sucesso da equipe, mas também para o fortalecimento dos objetivos organizacionais. Projetos como Esim, PIX, Cross-Sell, eCommerce."
+      "gestor": "Wollinger",
+      "justificativa": "Liderança e facilitação essenciais em sistemas da frente empresarial, garantindo testes e implantação conforme acordado."
     }
   ]
 }

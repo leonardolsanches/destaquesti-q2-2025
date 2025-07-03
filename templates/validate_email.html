@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação de E-mail</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' https://cdnjs.cloudflare.com;">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo">
+        <div id="countdown" class="countdown">Tempo disponível para votação</div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for msg in messages %}
+                        <li style="color: white;">{{ msg }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form method="POST">
+            <label for="identificador">Digite seu e-mail @claro.com.br:</label>
+            <input type="email" name="identificador" id="identificador" required>
+            <button type="submit" class="btn submit-btn">VALIDAR</button>
+            <a href="{{ url_for('index') }}" class="btn back-btn">SAIR</a>
+        </form>
+    </div>
+</body>
+</html>

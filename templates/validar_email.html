@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<title>Login - Validação de E-mail</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8" />
+  <title>Login - Votação TI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
   <div class="login-container">
     <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo-claro" />
     <h1>Digite seu e-mail @claro.com.br</h1>
-    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul class="flashes">
-        {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
+          {% for message in messages %}
+            <li class="error">{{ message }}</li>
+          {% endfor %}
         </ul>
       {% endif %}
     {% endwith %}
-    <form method="post" action="{{ url_for('validar_email') }}">
-      <input type="email" name="email" placeholder="exemplo@claro.com.br" required>
-      
-      <label for="gestor">Selecione seu Gestor:</label>
-      <select name="gestor" id="gestor" required>
-        <option value="">-- Selecione --</option>
-        <option value="Aline">Aline</option>
-        <option value="Fabio">Fabio</option>
-        <option value="Mario">Mario</option>
-        <option value="Marcus">Marcus</option>
-        <option value="Mezadri">Mezadri</option>
-        <option value="Waldir">Waldir</option>
-        <option value="Wollinger">Wollinger</option>
+    <form method="post" action="{{ url_for('validar_email') }}" class="login-form">
+      <input type="email" name="email" placeholder="seu.email@claro.com.br" required autofocus class="login-input" />
+      <select name="gestor" required class="login-select">
+        <option value="" disabled selected>Selecione o gestor</option>
+        {% for gestor in gestores %}
+          <option value="{{ gestor }}">{{ gestor }}</option>
+        {% endfor %}
       </select>
-      
-      <button type="submit">Entrar</button>
+      <button type="submit" class="btn-login">Entrar</button>
     </form>
   </div>
 </body>
