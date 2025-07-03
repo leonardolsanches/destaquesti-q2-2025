@@ -17,7 +17,11 @@ def carregar_justificativas():
 def carregar_votos():
     try:
         with open(VOTOS_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
+            for key in ['profissionais', 'lideres', 'justificativas']:
+                if key not in data or not isinstance(data[key], dict):
+                    data[key] = {}
+            return data
     except (FileNotFoundError, json.JSONDecodeError):
         return {"profissionais": {}, "lideres": {}, "justificativas": {}}
 
@@ -39,17 +43,22 @@ def votacao():
     votos = carregar_votos()
 
     if request.method == 'POST':
-        voto_profissional = request.form.get('voto_profissional')
+        voto_profissionais = request.form.getlist('voto_profissional')
         voto_lider = request.form.get('voto_lider')
-        justificativa = request.form.get('justificativa')
 
-        if not voto_profissional or not voto_lider:
-            return render_template('votacao.html', dados=dados, votos=votos, erro="Selecione todos os votos")
+        if not voto_profissionais or len(voto_profissionais) == 0:
+            return render_template('votacao.html', dados=dados, votos=votos, erro="Selecione pelo menos um profissional (máximo 4).")
 
-        votos['profissionais'][voto_profissional] = votos['profissionais'].get(voto_profissional, 0) + 1
+        if len(voto_profissionais) > 4:
+            return render_template('votacao.html', dados=dados, votos=votos, erro="Você pode selecionar no máximo 4 profissionais.")
+
+        if not voto_lider:
+            return render_template('votacao.html', dados=dados, votos=votos, erro="Selecione um líder.")
+
+        for prof_id in voto_profissionais:
+            votos['profissionais'][prof_id] = votos['profissionais'].get(prof_id, 0) + 1
+
         votos['lideres'][voto_lider] = votos['lideres'].get(voto_lider, 0) + 1
-        if justificativa:
-            votos['justificativas'][justificativa] = votos['justificativas'].get(justificativa, 0) + 1
 
         salvar_votos(votos)
         return redirect(url_for('resultado'))
@@ -60,6 +69,13 @@ def votacao():
 def resultado():
     dados = carregar_justificativas()
     votos = carregar_votos()
+
+    def ordenar_por_votos(lista, votos_dict):
+        return sorted(lista, key=lambda x: votos_dict.get(x['id'], 0), reverse=True)
+
+    dados['profissionais'] = ordenar_por_votos(dados['profissionais'], votos['profissionais'])
+    dados['lideres'] = ordenar_por_votos(dados['lideres'], votos['lideres'])
+
     return render_template('resultado.html', dados=dados, votos=votos)
 
 if __name__ == '__main__':

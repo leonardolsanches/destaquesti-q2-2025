@@ -5,9 +5,8 @@
   <title>Votação - Destaques Q2 2025</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <style>
-    /* Estilo para borda vermelha no card selecionado */
     .card.selected {
-      border: 2.5px solid #7F1734; /* Bordeaux */
+      border: 2.5px solid #7F1734;
       box-shadow: 0 0 10px rgba(127,23,52,0.7);
     }
     .vote-count {
@@ -33,13 +32,13 @@
     {% endif %}
 
     <section>
-      <h2>Profissionais</h2>
+      <h2>Profissionais (selecione até 4)</h2>
       <div class="cards-container" id="profissionais-container">
         {% for prof in dados.profissionais %}
           {% set votos_prof = votos.profissionais.get(prof.id, 0) %}
           {% set perc_prof = (votos_prof / total_votos_profissionais * 100) if total_votos_profissionais > 0 else 0 %}
           <label class="card" data-id="{{ prof.id }}" data-group="profissional">
-            <input type="radio" name="voto_profissional" value="{{ prof.id }}" required />
+            <input type="checkbox" name="voto_profissional" value="{{ prof.id }}" class="profissional-checkbox" />
             <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" />
             <div class="card-info">
               <strong>{{ prof.id }} - {{ prof.nome }}</strong>
@@ -53,7 +52,7 @@
     </section>
 
     <section>
-      <h2>Líderes</h2>
+      <h2>Líderes (selecione 1)</h2>
       <div class="cards-container" id="lideres-container">
         {% for lider in dados.lideres %}
           {% set votos_lider = votos.lideres.get(lider.id, 0) %}
@@ -76,23 +75,34 @@
   </form>
 
   <script>
-    // JS para destacar card selecionado com borda vermelha
     document.addEventListener('DOMContentLoaded', function() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        const input = card.querySelector('input[type="radio"]');
-        input.addEventListener('change', function() {
-          // Remover seleção de todos cards do mesmo grupo
-          const group = card.getAttribute('data-group');
-          document.querySelectorAll(`.card[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
-          // Adicionar seleção ao card atual
-          if (input.checked) {
-            card.classList.add('selected');
+      const profCheckboxes = document.querySelectorAll('.profissional-checkbox');
+      profCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+          const checked = Array.from(profCheckboxes).filter(c => c.checked);
+          if (checked.length > 4) {
+            this.checked = false;
+            alert('Você pode selecionar até 4 profissionais.');
+            return;
           }
+          profCheckboxes.forEach(c => {
+            if(c.checked){
+              c.closest('.card').classList.add('selected');
+            } else {
+              c.closest('.card').classList.remove('selected');
+            }
+          });
+        });
+      });
+
+      const liderRadios = document.querySelectorAll('input[name="voto_lider"]');
+      liderRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          liderRadios.forEach(r => r.closest('.card').classList.remove('selected'));
+          if(this.checked) this.closest('.card').classList.add('selected');
         });
       });
     });
   </script>
-
 </body>
 </html>

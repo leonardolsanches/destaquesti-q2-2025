@@ -1,0 +1,210 @@
+[
+    {
+        "nome": "P1 - Antonio Carlos Geraldi",
+        "categoria": "Profissional",
+        "votos": 3,
+        "votantes": [
+            "Alexandre Teles Claro",
+            "Luciano Haiek Claro",
+            "Maria Lucia Claro"
+        ]
+    },
+    {
+        "nome": "P2 - Camila Faraco",
+        "categoria": "Profissional",
+        "votos": 19,
+        "votantes": [
+            "Waldyr Junior",
+            "Alexandre Teles Claro",
+            "~André",
+            "Tiago Gonçalves Barbosa",
+            "Fernanda Dinis",
+            "+55 11 98388-7868",
+            "Fabiano de Lara",
+            "Daniel Produtos Financeiros Claro",
+            "Cris Mertins",
+            "Bárbara Pizane",
+            "Mezadri Claro",
+            "Janaina Sousa",
+            "Bruna Nascimento",
+            "+55 21 99197-5608",
+            "Ariel Fonseca",
+            "Michael Cardoso",
+            "Aline Nextel Claro",
+            "Maria Lucia Claro",
+            "Diego Santos"
+        ]
+    },
+    {
+        "nome": "P3 - Diogo Camada",
+        "categoria": "Profissional",
+        "votos": 7,
+        "votantes": [
+            "Fernanda Dinis",
+            "+55 11 98388-7868",
+            "Fabiano de Lara",
+            "+55 11 99992-9922",
+            "Fabio Cavalcanti",
+            "Ariel Fonseca",
+            "Aline Nextel Claro"
+        ]
+    },
+    {
+        "nome": "P4 - Erick Nakamura",
+        "categoria": "Profissional",
+        "votos": 11,
+        "votantes": [
+            "+55 11 98388-7868",
+            "Fabiano de Lara",
+            "Marcelo Gomes",
+            "+55 11 99992-9922",
+            "Emanuel Tergolina",
+            "Cris Mertins",
+            "Cristiano Harada Claro",
+            "Mario Angelozzi Claro",
+            "Michael Cardoso",
+            "Aline Nextel Claro",
+            "Diego Santos"
+        ]
+    },
+    {
+        "nome": "P5 - José Antenor Penna",
+        "categoria": "Profissional",
+        "votos": 6,
+        "votantes": [
+            "Eduardo Padilha Claro",
+            "Fabiano de Lara",
+            "Janaina Sousa",
+            "+55 21 99197-5608",
+            "Maria Lucia Claro",
+            "Diego Santos"
+        ]
+    },
+    {
+        "nome": "P6 - Luiz Fernando Gonçalves de Mattos",
+        "categoria": "Profissional",
+        "votos": 5,
+        "votantes": [
+            "~André",
+            "Bárbara Pizane",
+            "Cristiano Harada Claro",
+            "Bruna Nascimento",
+            "Maria Lucia Claro"
+        ]
+    },
+    {
+        "nome": "P7 - Rafael dos Santos",
+        "categoria": "Profissional",
+        "votos": 11,
+        "votantes": [
+            "Alexandre Teles Claro",
+            "~André",
+            "Tiago Gonçalves Barbosa",
+            "Fernanda Dinis",
+            "+55 11 98388-7868",
+            "+55 11 99992-9922",
+            "Cris Mertins",
+            "+55 21 99197-5608",
+            "Michael Cardoso",
+            "Everaldo Alves de Lima",
+            "Diego Santos"
+        ]
+    },
+    {
+        "nome": "P8 - Robson Carvalho de Oliveira",
+        "categoria": "Profissional",
+        "votos": 6,
+        "votantes": [
+            "Marcus Paulo Claro",
+            "Fernanda Dinis",
+            "+55 11 99992-9922",
+            "Cris Mertins",
+            "Mezadri Claro",
+            "Cristiano Harada Claro"
+        ]
+    },
+    {
+        "nome": "P9 - Vagner Vieira",
+        "categoria": "Profissional",
+        "votos": 6,
+        "votantes": [
+            "~André",
+            "Tiago Gonçalves Barbosa",
+            "Mezadri Claro",
+            "+55 21 99197-5608",
+            "Ariel Fonseca",
+            "Diego Santos"
+        ]
+    },
+    {
+        "nome": "P10 - Wilson Neves",
+        "categoria": "Profissional",
+        "votos": 9,
+        "votantes": [
+            "Marcus Paulo Claro",
+            "Mezadri Claro",
+            "Fábio Amaral",
+            "Janaina Sousa",
+            "Bruna Nascimento",
+            "Luciano Haiek Claro",
+            "Ariel Fonseca",
+            "Michael Cardoso",
+            "Aline Nextel Claro"
+        ]
+    },
+    {
+        "nome": "L1 - André Salgado",
+        "categoria": "Líder",
+        "votos": 4,
+        "votantes": [
+            "~André",
+            "Mario Angelozzi Claro",
+            "Luciano Haiek Claro",
+            "Diego Santos"
+        ]
+    },
+    {
+        "nome": "L2 - Eduardo Padilha",
+        "categoria": "Líder",
+        "votos": 13,
+        "votantes": [
+            "Marcus Paulo Claro",
+            "Fernanda Dinis",
+            "Fabiano de Lara",
+            "Emanuel Tergolina",
+            "Fabio Cavalcanti",
+            "Fábio Amaral",
+            "Cristiano Harada Claro",
+            "+55 21 99197-5608",
+            "Ariel Fonseca",
+            "Janaina Sousa",
+            "Everaldo Alves de Lima",
+            "Aline Nextel Claro",
+            "Maria Lucia Claro"
+        ]
+    },
+    {
+        "nome": "L3 - Rosangela Teressani",
+        "categoria": "Líder",
+        "votos": 6,
+        "votantes": [
+            "Waldyr Junior",
+            "+55 11 98388-7868",
+            "Marcelo Gomes",
+            "Cris Mertins",
+            "+55 11 99992-9922",
+            "Mezadri Claro"
+        ]
+    },
+    {
+        "nome": "L4 - Tiago Barbosa",
+        "categoria": "Líder",
+        "votos": 4,
+        "votantes": [
+            "Alexandre Teles Claro",
+            "Bárbara Pizane",
+            "Bruna Nascimento",
+            "Michael Cardoso"
+        ]
+    }
+]

@@ -1,65 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <title>Resultados da Votação - Destaques Q2 2025</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8" />
+  <title>Resultado da Votação - Destaques Q2 2025</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      color: #c00;
+      margin-bottom: 30px;
+    }
+    .chart-container {
+      width: 90%;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+    .chart-title {
+      font-weight: bold;
+      font-size: 1.3em;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #7F1734; /* Bordeaux */
+    }
+    .chart-title.lideres {
+      color: #D4A41E; /* Mostarda Dijon */
+    }
+  </style>
 </head>
 <body>
-    <h1>Resultados da Votação - Destaques Q2 2025</h1>
+  <header>
+    <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" style="height:50px; margin-bottom:20px;" />
+    <h1>Resultado Parcial da Votação - Destaques Q2/2025</h1>
+  </header>
 
-    <h2>Profissionais</h2>
-    <ul>
-        {% if votos.profissionais %}
-            {% for id, qtde in votos.profissionais.items() %}
-                {% for prof in dados.profissionais %}
-                    {% if prof.id == id %}
-                        <li>
-                            <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" width="40" />
-                            {{ prof.nome }}: {{ qtde }}
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            <li>Nenhum voto registrado</li>
-        {% endif %}
-    </ul>
+  <div class="chart-container">
+    <div class="chart-title">Profissionais - Votos Apurados</div>
+    <canvas id="profissionaisChart"></canvas>
+  </div>
 
-    <h2>Líderes</h2>
-    <ul>
-        {% if votos.lideres %}
-            {% for id, qtde in votos.lideres.items() %}
-                {% for lider in dados.lideres %}
-                    {% if lider.id == id %}
-                        <li>
-                            <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" width="40" />
-                            {{ lider.nome }}: {{ qtde }}
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            <li>Nenhum voto registrado</li>
-        {% endif %}
-    </ul>
+  <div class="chart-container">
+    <div class="chart-title lideres">Líderes - Votos Apurados</div>
+    <canvas id="lideresChart"></canvas>
+  </div>
 
-    <h2>Justificativas</h2>
-    <ul>
-        {% if votos.justificativas %}
-            {% for id, qtde in votos.justificativas.items() %}
-                {% for jus in dados.justificativas %}
-                    {% if jus.id == id %}
-                        <li>{{ jus.texto }}: {{ qtde }}</li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            <li>Nenhuma justificativa registrada</li>
-        {% endif %}
-    </ul>
+<script>
+  // Dados para profissionais (ordenados decrescente)
+  const profData = {{ votos.profissionais | tojson }};
+  const profLabels = Object.keys(profData).sort((a,b) => profData[b] - profData[a]);
+  const profValues = profLabels.map(label => profData[label]);
 
-    <br>
-    <a href="{{ url_for('votacao') }}">Voltar para votação</a>
+  // Dados para lideres (ordenados decrescente)
+  const liderData = {{ votos.lideres | tojson }};
+  const liderLabels = Object.keys(liderData).sort((a,b) => liderData[b] - liderData[a]);
+  const liderValues = liderLabels.map(label => liderData[label]);
+
+  // Map para nomes
+  const profNamesMap = {};
+  {% for p in dados.profissionais %}
+    profNamesMap["{{ p.id }}"] = "{{ p.nome }}";
+  {% endfor %}
+
+  const liderNamesMap = {};
+  {% for l in dados.lideres %}
+    liderNamesMap["{{ l.id }}"] = "{{ l.nome }}";
+  {% endfor %}
+
+  const profLabelsNamed = profLabels.map(id => profNamesMap[id] || id);
+  const liderLabelsNamed = liderLabels.map(id => liderNamesMap[id] || id);
+
+  // Chart para profissionais - vertical, Bordeaux
+  const ctxProf = document.getElementById('profissionaisChart').getContext('2d');
+  new Chart(ctxProf, {
+    type: 'bar',
+    data: {
+      labels: profLabelsNamed,
+      datasets: [{
+        label: 'Votos',
+        data: profValues,
+        backgroundColor: '#7F1734'
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: true, precision: 0 }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+
+  // Chart para lideres - vertical, Mostarda Dijon
+  const ctxLider = document.getElementById('lideresChart').getContext('2d');
+  new Chart(ctxLider, {
+    type: 'bar',
+    data: {
+      labels: liderLabelsNamed,
+      datasets: [{
+        label: 'Votos',
+        data: liderValues,
+        backgroundColor: '#D4A41E'
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: true, precision: 0 }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+</script>
+
 </body>
 </html>

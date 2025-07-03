@@ -87,46 +87,5 @@
       "justificativa": "Trabalho excepcional, gerenciando múltiplos projetos, entregas e resultados admiráveis, contribuindo para o sucesso da equipe."
     }
   ],
-  "justificativas": [
-    {
-      "id": "J1",
-      "texto": "Reconhecimento pelo desempenho excepcional ao longo do trimestre."
-    },
-    {
-      "id": "J2",
-      "texto": "Contribuição destacada para os resultados da equipe."
-    },
-    {
-      "id": "J3",
-      "texto": "Demonstração constante de comprometimento e dedicação."
-    },
-    {
-      "id": "J4",
-      "texto": "Liderança inspiradora e eficaz em projetos críticos."
-    },
-    {
-      "id": "J5",
-      "texto": "Inovação e criatividade que impactaram positivamente o time."
-    },
-    {
-      "id": "J6",
-      "texto": "Excelência no atendimento e suporte aos clientes internos."
-    },
-    {
-      "id": "J7",
-      "texto": "Colaboração e espírito de equipe exemplares."
-    },
-    {
-      "id": "J8",
-      "texto": "Capacidade de resolver problemas complexos rapidamente."
-    },
-    {
-      "id": "J9",
-      "texto": "Consistência e qualidade nas entregas técnicas."
-    },
-    {
-      "id": "J10",
-      "texto": "Disposição para apoiar colegas e compartilhar conhecimento."
-    }
-  ]
+  "justificativas": []
 }
