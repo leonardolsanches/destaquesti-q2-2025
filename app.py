@@ -1,19 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+import re
+import os
 import json
 from datetime import datetime, timedelta
-import os
-import re
 
 app = Flask(__name__)
-app.secret_key = 'chave-secreta-muito-segura'  # troque por algo seguro em produção
+app.secret_key = 'chave-secreta-muito-segura'  # Troque por algo seguro
+
+EMAIL_REGEX = re.compile(r'^[\w\.-]+@claro\.com\.br$', re.IGNORECASE)
 
 JUSTIFICATIVAS_FILE = os.path.join('dados', 'justificativas.json')
 VOTOS_FILE = os.path.join('dados', 'votos.json')
 USUARIOS_FILE = os.path.join('dados', 'usuarios.json')
 
 DATA_CORTE = datetime.now().replace(hour=9, minute=0, second=0, microsecond=0) + timedelta(days=1)
-
-EMAIL_REGEX = re.compile(r'^[\w\.-]+@claro\.com\.br$', re.IGNORECASE)
 
 def carregar_justificativas():
     with open(JUSTIFICATIVAS_FILE, 'r', encoding='utf-8') as f:
@@ -46,27 +46,27 @@ def salvar_usuarios(usuarios):
         json.dump(usuarios, f, ensure_ascii=False, indent=2)
 
 @app.route('/', methods=['GET', 'POST'])
-def login():
+def validar_email():
     if request.method == 'POST':
         email = request.form.get('email', '').strip().lower()
         if not EMAIL_REGEX.match(email):
             flash('Digite um e-mail válido @claro.com.br', 'error')
-            return render_template('login.html')
+            return render_template('validar_email.html')
 
         usuarios = carregar_usuarios()
         if email in usuarios:
             flash('Este e-mail já votou.', 'error')
-            return redirect(url_for('resultado'))
+            return render_template('validar_email.html')
 
         session['user_email'] = email
         return redirect(url_for('votacao'))
 
-    return render_template('login.html')
+    return render_template('validar_email.html')
 
 @app.route('/votacao', methods=['GET', 'POST'])
 def votacao():
     if 'user_email' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('validar_email'))
 
     agora = datetime.now()
     if agora >= DATA_CORTE:
@@ -74,9 +74,9 @@ def votacao():
 
     dados = carregar_justificativas()
     votos = carregar_votos()
-
     usuarios = carregar_usuarios()
     user_email = session['user_email']
+
     if user_email in usuarios:
         return redirect(url_for('resultado'))
 
@@ -127,7 +127,7 @@ def resultado():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('login'))
+    return redirect(url_for('validar_email'))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
