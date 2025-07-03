@@ -14,7 +14,10 @@
             {% for id, qtde in votos.profissionais.items() %}
                 {% for prof in dados.profissionais %}
                     {% if prof.id == id %}
-                        <li>{{ prof.nome }}: {{ qtde }}</li>
+                        <li>
+                            <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" width="40" />
+                            {{ prof.nome }}: {{ qtde }}
+                        </li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
@@ -29,7 +32,10 @@
             {% for id, qtde in votos.lideres.items() %}
                 {% for lider in dados.lideres %}
                     {% if lider.id == id %}
-                        <li>{{ lider.nome }}: {{ qtde }}</li>
+                        <li>
+                            <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" width="40" />
+                            {{ lider.nome }}: {{ qtde }}
+                        </li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
