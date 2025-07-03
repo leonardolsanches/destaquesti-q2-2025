@@ -16,7 +16,7 @@ h1 {
   color: #7F1734;
   margin-bottom: 15px;
   font-weight: 700;
-  text-align: center; /* centraliza o título */
+  text-align: center;
 }
 
 h2 {
@@ -146,6 +146,9 @@ a:hover {
   gap: 20px;
   margin-bottom: 40px;
   justify-content: flex-start;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card {
@@ -162,8 +165,8 @@ a:hover {
   word-wrap: break-word;
   text-align: left;
 
-  flex: 1 1 280px; /* flex-grow, flex-shrink, flex-basis */
-  max-width: 400px;
+  flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3);
   min-width: 280px;
 }
 
@@ -321,20 +324,70 @@ form {
   max-width: 360px;
 }
 
-/* --- Responsividade básica --- */
+/* --- Responsividade --- */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .card {
+    flex: 0 0 calc((100% - 20px) / 2);
+    max-width: calc((100% - 20px) / 2);
+  }
+}
+
+@media (max-width: 600px) {
   .cards-container {
-    flex-direction: column;
-    gap: 15px;
+    justify-content: center;
   }
   .card {
-    width: 100% !important;
-    min-width: auto !important;
-    max-width: none !important;
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-width: auto;
   }
   .login-container {
     margin: 40px 10px;
     padding: 20px;
   }
 }
+
+/* Modal Popup */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  width: 300px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.modal-content p.success {
+  color: #4f8a10;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.modal-content p.error {
+  color: #d8000c;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.modal-content button {
+  margin: 10px 5px 0 5px;
+  padding: 10px 20px;
+  background-color: #7F1734;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #5
