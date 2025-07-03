@@ -1,96 +1,121 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
 import json
-import re
-from datetime import datetime
+import os
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 
 app = Flask(__name__)
-app.secret_key = 'sua_chave_secreta_aqui'
+app.secret_key = 'seu_seguro_secret_key'
 
-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@claro\.com\.br$')
+DATA_DIR = 'dados'
 
-JUSTIFICATIVAS_FILE = 'dados/justificativas.json'
-VOTOS_FILE = 'dados/votos.json'
-USUARIOS_FILE = 'dados/usuarios.json'
+def carregar_json(nome_arquivo):
+    caminho = os.path.join(DATA_DIR, nome_arquivo)
+    if not os.path.isfile(caminho):
+        return {}
+    with open(caminho, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
-DATA_CORTE = datetime.strptime('2025-07-04 09:00:00', '%Y-%m-%d %H:%M:%S')
-
-def carregar_json(arquivo, default):
-    try:
-        with open(arquivo, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
-        return default
-
-def salvar_json(arquivo, dados):
-    with open(arquivo, 'w', encoding='utf-8') as f:
+def salvar_json(nome_arquivo, dados):
+    caminho = os.path.join(DATA_DIR, nome_arquivo)
+    with open(caminho, 'w', encoding='utf-8') as f:
         json.dump(dados, f, ensure_ascii=False, indent=2)
+
+def ordenar_por_codigo(lista_candidatos):
+    def extrair_numero(candidato):
+        codigo = candidato['id']
+        letra = codigo[0].upper()
+        numero = int(codigo[1:])
+        offset = 100 if letra == 'L' else 0
+        return numero + offset
+    return sorted(lista_candidatos, key=extrair_numero)
 
 @app.route('/', methods=['GET', 'POST'])
 def validar_email():
     if request.method == 'POST':
-        email = request.form.get('email', '').lower().strip()
+        email = request.form.get('email', '').strip().lower()
         gestor = request.form.get('gestor', '').strip()
-        if not EMAIL_REGEX.match(email):
-            flash('Digite um e-mail válido @claro.com.br', 'error')
+
+        if not email.endswith('@claro.com.br'):
+            flash('O e-mail deve ser @claro.com.br', 'error')
             return render_template('validar_email.html')
-        if not gestor:
-            flash('Selecione um gestor válido.', 'error')
-            return render_template('validar_email.html')
-        usuarios = carregar_json(USUARIOS_FILE, [])
-        if any(u['email'] == email for u in usuarios):
-            flash('Este e-mail já votou.', 'error')
-            return render_template('validar_email.html')
-        session['user_email'] = email
-        session['user_gestor'] = gestor
+
+        # Salva dados na sessão para validar voto posteriormente
+        session['email'] = email
+        session['gestor_usuario'] = gestor
+
+        # Verifica se o usuário já votou
+        votos = carregar_json('votos.json')
+        if email in votos:
+            flash('Você já realizou sua votação.', 'error')
+            return redirect(url_for('resultado'))
+
         return redirect(url_for('votacao'))
+
     return render_template('validar_email.html')
 
 @app.route('/votacao', methods=['GET', 'POST'])
 def votacao():
-    if 'user_email' not in session or 'user_gestor' not in session:
+    if 'email' not in session:
         return redirect(url_for('validar_email'))
-    if datetime.now() >= DATA_CORTE:
-        return redirect(url_for('resultado'))
 
-    user_gestor = session['user_gestor']
-    dados = carregar_json(JUSTIFICATIVAS_FILE, {})
-    votos = carregar_json(VOTOS_FILE, {"profissionais": {}, "lideres": {}, "justificativas": {}})
-    usuarios = carregar_json(USUARIOS_FILE, [])
-    user_email = session['user_email']
+    dados = carregar_json('justificativas.json')
+    votos = carregar_json('votos.json')
 
-    if any(u['email'] == user_email for u in usuarios):
-        return redirect(url_for('resultado'))
+    # Ordena para exibir corretamente
+    dados['profissionais'] = ordenar_por_codigo(dados.get('profissionais', []))
+    dados['lideres'] = ordenar_por_codigo(dados.get('lideres', []))
 
     if request.method == 'POST':
-        profs = request.form.getlist('voto_profissional')
-        lider = request.form.get('voto_lider')
-        if not profs or len(profs) != 1:
-            flash("Selecione exatamente 1 profissional.", 'error')
-        elif not lider:
-            flash("Selecione 1 líder.", 'error')
-        else:
-            candidato_prof = next((p for p in dados.get('profissionais', []) if p['id'] == profs[0]), None)
-            candidato_lider = next((l for l in dados.get('lideres', []) if l['id'] == lider), None)
-            if not candidato_prof or not candidato_lider:
-                flash("Seleção inválida de candidato(s).", 'error')
-            elif candidato_prof['gestor'] == user_gestor or candidato_lider['gestor'] == user_gestor:
-                flash("Não é permitido votar em candidatos do mesmo gestor.", 'error')
-            else:
-                votos['profissionais'][profs[0]] = votos['profissionais'].get(profs[0], 0) + 1
-                votos['lideres'][lider] = votos['lideres'].get(lider, 0) + 1
-                salvar_json(VOTOS_FILE, votos)
-                usuarios.append({'email': user_email, 'gestor': user_gestor})
-                salvar_json(USUARIOS_FILE, usuarios)
-                flash('Voto registrado com sucesso! Obrigado por participar.', 'success')
-                return redirect(url_for('resultado'))
+        email = session['email']
+        gestor_usuario = session.get('gestor_usuario')
 
-    return render_template('votacao.html', dados=dados, votos=votos)
+        voto_profissional = request.form.get('voto_profissional')
+        voto_lider = request.form.get('voto_lider')
+
+        # Valida seleção
+        if not voto_profissional or not voto_lider:
+            flash('Você deve selecionar 1 profissional e 1 líder.', 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
+
+        # Busca gestores dos candidatos selecionados
+        gestor_profissional = next((p['gestor'] for p in dados['profissionais'] if p['id'] == voto_profissional), None)
+        gestor_lider = next((l['gestor'] for l in dados['lideres'] if l['id'] == voto_lider), None)
+
+        # Verifica restrição de gestor (não pode votar em candidato do mesmo gestor)
+        if gestor_usuario == gestor_profissional or gestor_usuario == gestor_lider:
+            flash('Você não pode votar em candidatos do seu próprio gestor.', 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
+
+        # Registra voto
+        votos[email] = {
+            'profissional': voto_profissional,
+            'lider': voto_lider,
+            'gestor_usuario': gestor_usuario
+        }
+        salvar_json('votos.json', votos)
+
+        # Atualiza contagem apurada
+        resultado = carregar_json('resultado.json')
+        resultado.setdefault('profissionais', {})
+        resultado.setdefault('lideres', {})
+
+        resultado['profissionais'][voto_profissional] = resultado['profissionais'].get(voto_profissional, 0) + 1
+        resultado['lideres'][voto_lider] = resultado['lideres'].get(voto_lider, 0) + 1
+        salvar_json('resultado.json', resultado)
+
+        flash('Voto registrado com sucesso!', 'success')
+        return redirect(url_for('resultado'))
+
+    return render_template('votacao.html', dados=dados, votos=carregar_json('resultado.json'))
 
 @app.route('/resultado')
 def resultado():
-    dados = carregar_json(JUSTIFICATIVAS_FILE, {})
-    votos = carregar_json(VOTOS_FILE, {"profissionais": {}, "lideres": {}, "justificativas": {}})
-    return render_template('resultado.html', dados=dados, votos=votos)
+    dados = carregar_json('justificativas.json')
+    resultado = carregar_json('resultado.json')
+
+    dados['profissionais'] = ordenar_por_codigo(dados.get('profissionais', []))
+    dados['lideres'] = ordenar_por_codigo(dados.get('lideres', []))
+
+    return render_template('resultado.html', dados=dados, resultado=resultado)
 
 @app.route('/logout')
 def logout():
