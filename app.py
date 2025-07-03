@@ -61,36 +61,30 @@ def votacao():
     if any(u['email'] == user_email for u in usuarios):
         return redirect(url_for('resultado'))
 
-    profissionais_filtrados = [p for p in dados.get('profissionais', []) if p['gestor'] != user_gestor]
-    lideres_filtrados = [l for l in dados.get('lideres', []) if l['gestor'] != user_gestor]
-
     if request.method == 'POST':
         profs = request.form.getlist('voto_profissional')
         lider = request.form.get('voto_lider')
         if not profs or len(profs) != 1:
             flash("Selecione exatamente 1 profissional.", 'error')
-            return render_template('votacao.html', dados={'profissionais': profissionais_filtrados, 'lideres': lideres_filtrados}, votos=votos)
-        if not lider:
+        elif not lider:
             flash("Selecione 1 líder.", 'error')
-            return render_template('votacao.html', dados={'profissionais': profissionais_filtrados, 'lideres': lideres_filtrados}, votos=votos)
+        else:
+            candidato_prof = next((p for p in dados.get('profissionais', []) if p['id'] == profs[0]), None)
+            candidato_lider = next((l for l in dados.get('lideres', []) if l['id'] == lider), None)
+            if not candidato_prof or not candidato_lider:
+                flash("Seleção inválida de candidato(s).", 'error')
+            elif candidato_prof['gestor'] == user_gestor or candidato_lider['gestor'] == user_gestor:
+                flash("Não é permitido votar em candidatos do mesmo gestor.", 'error')
+            else:
+                votos['profissionais'][profs[0]] = votos['profissionais'].get(profs[0], 0) + 1
+                votos['lideres'][lider] = votos['lideres'].get(lider, 0) + 1
+                salvar_json(VOTOS_FILE, votos)
+                usuarios.append({'email': user_email, 'gestor': user_gestor})
+                salvar_json(USUARIOS_FILE, usuarios)
+                flash('Voto registrado com sucesso! Obrigado por participar.', 'success')
+                return redirect(url_for('resultado'))
 
-        candidato_prof = next((p for p in profissionais_filtrados if p['id'] == profs[0]), None)
-        candidato_lider = next((l for l in lideres_filtrados if l['id'] == lider), None)
-        if not candidato_prof or not candidato_lider:
-            flash("Seleção inválida de candidato(s).", 'error')
-            return render_template('votacao.html', dados={'profissionais': profissionais_filtrados, 'lideres': lideres_filtrados}, votos=votos)
-
-        votos['profissionais'][profs[0]] = votos['profissionais'].get(profs[0], 0) + 1
-        votos['lideres'][lider] = votos['lideres'].get(lider, 0) + 1
-        salvar_json(VOTOS_FILE, votos)
-
-        usuarios.append({'email': user_email, 'gestor': user_gestor})
-        salvar_json(USUARIOS_FILE, usuarios)
-
-        flash('Voto registrado com sucesso! Obrigado por participar.', 'success')
-        return redirect(url_for('resultado'))
-
-    return render_template('votacao.html', dados={'profissionais': profissionais_filtrados, 'lideres': lideres_filtrados}, votos=votos)
+    return render_template('votacao.html', dados=dados, votos=votos)
 
 @app.route('/resultado')
 def resultado():
