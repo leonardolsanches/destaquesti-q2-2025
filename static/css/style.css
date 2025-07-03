@@ -115,3 +115,54 @@ h1, h2 {
   margin-bottom: 15px;
   text-align: center;
 }
+/* Container para centralizar o login verticalmente e horizontalmente */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9f9f9;
+}
+
+/* Caixa de login */
+.login-box {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  width: 420px;
+  text-align: center;
+}
+
+/* Form alinhado lado a lado */
+.login-box form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Campo de e-mail responsivo */
+.login-box input[type=email] {
+  flex: 1;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Botão estilizado */
+.login-box button {
+  background-color: #7F1734;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 110px;
+  transition: background-color 0.3s;
+}
+
+.login-box button:hover {
+  background-color: #5a1024;
+}
