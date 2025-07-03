@@ -74,45 +74,45 @@
   "lideres": [
     {
       "id": "L1",
-      "nome": "André Salgado",
+      "nome": "André Nunes",
       "imagem": "L1.png",
+      "gestor": "Mario",
+      "justificativa": "Liderou o projeto de upgrade tecnológico, onde trazemos para Claro a última versão do API Gateway da Google com entregas de uma nova plataforma e uma fundação na infra de GCP. Atuou com muita resiliência e negociação com outros times como Infra, Operação e CCoE."
+    },
+    {
+      "id": "L2",
+      "nome": "André Salgado",
+      "imagem": "L2.png",
       "gestor": "Aline",
       "justificativa": "André Salgado tem se destacado de forma notável na liderança dos projetos PME, sendo uma peça chave nas transformações em curso. Profissional sempre disponível, a determinação e o foco em conduzir projetos, mesmo diante de desafios, refletem seu comprometimento e profissionalismo. Soube lidar com a velocidade exigida do negócio."
     },
     {
-      "id": "L2",
+      "id": "L3",
       "nome": "Eduardo Padilha",
-      "imagem": "L2.png",
+      "imagem": "L3.png",
       "gestor": "Marcus",
       "justificativa": "Liderou seu time com muito empenho superando obstáculos e conseguindo realizar a entrega antecipada na entrega do Portabilidade Cruzada – CPC, projeto estratégico para o PME com resultado reconhecido pela diretoria de negócios."
     },
     {
-      "id": "L3",
+      "id": "L4",
+      "nome": "Fabio Brandão Cavalcanti",
+      "imagem": "L4.png",
+      "gestor": "Wollinger",
+      "justificativa": "Liderança nos sistemas da frente empresarial, foi essencial como facilitador e solucionador na frente do Cobilling Sainte do projeto NFCOM, garantindo a realização dos testes e a implantação na data acordada junto ao seu time e fornecedor. Demonstra elevado comprometimento e protagonismo nos temas sob sua gestão, como RGC, NFCOM, Reforma Tributária, entre outros."
+    },
+    {
+      "id": "L5",
       "nome": "Rosangela Teressani",
-      "imagem": "L3.png",
+      "imagem": "L5.png",
       "gestor": "Aline",
       "justificativa": "Possui uma dedicação incansável e se destacou recentemente por estar responsável por muitas frentes críticas e importantes ao mesmo tempo, com destaque ao projeto NFCOM Travas e 6 frentes paralelas do RGC. É muito responsável e busca um alinhamento minucioso entre as frentes envolvidas para mitigar os riscos do projeto e viabilizar a entrega."
     },
     {
-      "id": "L4",
-      "nome": "Tiago Barbosa",
-      "imagem": "L4.png",
-      "gestor": "Aline",
-      "justificativa": "Realizado um trabalho excepcional junto com o seu time,  gerando grande valor para o negócio. Sua habilidade em gerenciar múltiplos projetos simultaneamente, mantendo um alto nível de entrega e resultados, é admirável. A dedicação e o comprometimento não apenas contribuem para o sucesso da equipe, mas também para o fortalecimento dos objetivos organizacionais. Projetos como Esim, PIX, Cross-Sell, eCommerce."
-    },
-    {
-      "id": "L5",
-      "nome": "André Nunes",
-      "imagem": "L5.png",
-      "gestor": "Desconhecido",
-      "justificativa": "Liderou o projeto de upgrade tecnológico, onde trazemos para Claro a última versão do API Gateway da Google com entregas de uma nova plataforma e uma fundação na infra de GCP. Atuou com muita resiliência e negociação com outros times como Infra, Operação e CCoE."
-    },
-    {
       "id": "L6",
-      "nome": "Fabio Brandão Cavalcanti",
+      "nome": "Tiago Barbosa",
       "imagem": "L6.png",
-      "gestor": "Desconhecido",
-      "justificativa": "Liderança nos sistemas da frente empresarial, foi essencial como facilitador e solucionador na frente do Cobilling Sainte do projeto NFCOM, garantindo a realização dos testes e a implantação na data acordada junto ao seu time e fornecedor. Demonstra elevado comprometimento e protagonismo nos temas sob sua gestão, como RGC, NFCOM, Reforma Tributária, entre outros."
+      "gestor": "Aline",
+      "justificativa": "Realizado um trabalho excepcional junto com o seu time, gerando grande valor para o negócio. Sua habilidade em gerenciar múltiplos projetos simultaneamente, mantendo um alto nível de entrega e resultados, é admirável. A dedicação e o comprometimento não apenas contribuem para o sucesso da equipe, mas também para o fortalecimento dos objetivos organizacionais. Projetos como Esim, PIX, Cross-Sell, eCommerce."
     }
   ]
 }
