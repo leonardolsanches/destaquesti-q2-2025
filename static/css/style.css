@@ -1,27 +1,111 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
-  margin: 20px;
   background-color: #f9f9f9;
   color: #333;
-  min-height: 100vh;
+  margin: 20px;
+  line-height: 1.4;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-.logo-claro {
-  height: 50px;
-}
-
-h1, h2 {
+/* --- Cabeçalhos --- */
+h1 {
   color: #c00;
-  margin: 0 0 15px 0;
-  font-weight: 700;
+  margin-bottom: 15px;
 }
+
+h2 {
+  color: #c00;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+/* --- Links --- */
+a {
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.9em;
+  float: right;
+  margin-bottom: 10px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Container de login e formulário --- */
+.login-container {
+  max-width: 360px;
+  background: white;
+  padding: 30px 25px 30px 25px;
+  margin: 60px auto;
+  border-radius: 8px;
+  box-shadow: 0 0 18px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-container .logo-claro {
+  max-height: 60px;
+  margin-bottom: 20px;
+}
+
+.login-container h1 {
+  color: #c00;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 1.3em;
+}
+
+/* Inputs e select - login */
+.login-container input[type="email"],
+.login-container select {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  font-family: inherit;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #7F1734;
+  border: none;
+  color: white;
+  font-size: 1.1em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+  background-color: #5a1024;
+}
+
+/* Mensagens de erro/sucesso - login e geral */
+.flashes {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.flashes li.error {
+  color: #d8000c;
+  font-weight: bold;
+}
+
+.flashes li.success {
+  color: #4f8a10;
+  font-weight: bold;
+}
+
+/* --- Página de votação --- */
 
 .cards-container {
   display: flex;
@@ -52,8 +136,7 @@ h1, h2 {
   box-shadow: 0 0 10px rgba(127,23,52,0.7);
 }
 
-.card input[type="radio"],
-.card input[type="checkbox"] {
+.card input[type="radio"] {
   margin-top: 5px;
   cursor: pointer;
   flex-shrink: 0;
@@ -75,14 +158,12 @@ h1, h2 {
   font-size: 1.1em;
   display: block;
   margin-bottom: 5px;
-  font-weight: 700;
+  color: #7F1734;
 }
 
 .card-info em {
   font-size: 0.9em;
   color: #666;
-  font-style: normal;
-  font-weight: 500;
 }
 
 .justificativa {
@@ -116,104 +197,99 @@ h1, h2 {
   background-color: #5a1024;
 }
 
+/* Mensagens de erro/sucesso - votação */
 .error {
-  color: #d93025;
-  font-weight: 700;
+  color: #d8000c;
+  font-weight: bold;
   margin-bottom: 15px;
   text-align: center;
-  font-family: Arial, sans-serif;
 }
 
 .success {
-  color: #188038;
-  font-weight: 700;
+  color: #4f8a10;
+  font-weight: bold;
   margin-bottom: 15px;
   text-align: center;
-  font-family: Arial, sans-serif;
 }
 
-/* Tela validação de e-mail */
+/* --- Página de resultado --- */
 
-.validate-email-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f9f9f9;
-  padding: 0 20px;
+.result-container {
+  max-width: 900px;
+  margin: 0 auto 60px;
 }
 
-.validate-email-box {
-  width: 420px;
-  background: white;
-  padding: 30px 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  text-align: center;
-  font-family: Arial, sans-serif;
-}
-
-.validate-email-box .logo {
-  margin-bottom: 20px;
-}
-
-.validate-email-box .logo img {
-  height: 60px;
-  margin-bottom: 20px;
-}
-
-.validate-email-box h2 {
+.result-container h1 {
+  margin-bottom: 30px;
   color: #c00;
-  font-weight: 700;
-  margin-bottom: 20px;
 }
 
-.validate-email-box form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-}
-
-.validate-email-box input[type=email],
-.validate-email-box button {
+.result-container table {
   width: 100%;
-  font-size: 1.1em;
-  padding: 12px 15px;
-  border-radius: 6px;
-  box-sizing: border-box;
-  outline: none;
-  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  margin-bottom: 40px;
 }
 
-.validate-email-box input[type=email] {
-  border: 1px solid #ccc;
+.result-container th,
+.result-container td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
 }
 
-.validate-email-box button {
+.result-container th {
+  background-color: #d32f2f;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.result-container tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+/* --- Botão voltar / sair --- */
+
+.btn-voltar,
+.btn-sair {
   background-color: #7F1734;
   color: white;
   border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
   cursor: pointer;
-  height: 46px;
-  transition: background-color 0.3s;
+  font-size: 1em;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
-.validate-email-box button:hover {
+.btn-voltar:hover,
+.btn-sair:hover {
   background-color: #5a1024;
 }
 
-.validate-email-box .error, 
-.validate-email-box .success {
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-align: center;
+/* --- Centralização de formulários (login) --- */
+
+form {
+  margin: 0 auto;
+  max-width: 360px;
 }
 
-.validate-email-box .error {
-  color: #d93025;
-}
+/* --- Responsividade básica --- */
 
-.validate-email-box .success {
-  color: #188038;
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .card {
+    width: 100%;
+  }
+  .login-container {
+    margin: 40px 10px;
+    padding: 20px;
+  }
 }
