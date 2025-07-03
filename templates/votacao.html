@@ -4,12 +4,28 @@
   <meta charset="UTF-8" />
   <title>Votação - Destaques Q2 2025</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <style>
+    /* Estilo para borda vermelha no card selecionado */
+    .card.selected {
+      border: 2.5px solid #7F1734; /* Bordeaux */
+      box-shadow: 0 0 10px rgba(127,23,52,0.7);
+    }
+    .vote-count {
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-top: 8px;
+      color: #7F1734;
+    }
+  </style>
 </head>
 <body>
   <header class="header">
     <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo-claro" />
     <h1>Profissionais e Líderes Indicados Q2/2025</h1>
   </header>
+
+  {% set total_votos_profissionais = votos.profissionais.values() | sum %}
+  {% set total_votos_lideres = votos.lideres.values() | sum %}
 
   <form method="post" action="{{ url_for('votacao') }}">
     {% if erro %}
@@ -18,15 +34,18 @@
 
     <section>
       <h2>Profissionais</h2>
-      <div class="cards-container">
+      <div class="cards-container" id="profissionais-container">
         {% for prof in dados.profissionais %}
-          <label class="card">
+          {% set votos_prof = votos.profissionais.get(prof.id, 0) %}
+          {% set perc_prof = (votos_prof / total_votos_profissionais * 100) if total_votos_profissionais > 0 else 0 %}
+          <label class="card" data-id="{{ prof.id }}" data-group="profissional">
             <input type="radio" name="voto_profissional" value="{{ prof.id }}" required />
             <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" />
             <div class="card-info">
               <strong>{{ prof.id }} - {{ prof.nome }}</strong>
               <p><em>Gestor: {{ prof.gestor }}</em></p>
               <p class="justificativa">{{ prof.justificativa }}</p>
+              <p class="vote-count">{{ votos_prof }} votos ({{ '%.1f' % perc_prof }}%)</p>
             </div>
           </label>
         {% endfor %}
@@ -35,32 +54,45 @@
 
     <section>
       <h2>Líderes</h2>
-      <div class="cards-container">
+      <div class="cards-container" id="lideres-container">
         {% for lider in dados.lideres %}
-          <label class="card">
+          {% set votos_lider = votos.lideres.get(lider.id, 0) %}
+          {% set perc_lider = (votos_lider / total_votos_lideres * 100) if total_votos_lideres > 0 else 0 %}
+          <label class="card" data-id="{{ lider.id }}" data-group="lider">
             <input type="radio" name="voto_lider" value="{{ lider.id }}" required />
             <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" />
             <div class="card-info">
               <strong>{{ lider.id }} - {{ lider.nome }}</strong>
               <p><em>Gestor: {{ lider.gestor }}</em></p>
               <p class="justificativa">{{ lider.justificativa }}</p>
+              <p class="vote-count">{{ votos_lider }} votos ({{ '%.1f' % perc_lider }}%)</p>
             </div>
           </label>
         {% endfor %}
       </div>
     </section>
 
-    <section>
-      <h2>Justificativa (opcional)</h2>
-      <select name="justificativa">
-        <option value="" selected>Sem justificativa</option>
-        {% for jus in dados.justificativas %}
-          <option value="{{ jus.id }}">{{ jus.texto }}</option>
-        {% endfor %}
-      </select>
-    </section>
-
     <button type="submit" class="btn-votar">Votar</button>
   </form>
+
+  <script>
+    // JS para destacar card selecionado com borda vermelha
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const input = card.querySelector('input[type="radio"]');
+        input.addEventListener('change', function() {
+          // Remover seleção de todos cards do mesmo grupo
+          const group = card.getAttribute('data-group');
+          document.querySelectorAll(`.card[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
+          // Adicionar seleção ao card atual
+          if (input.checked) {
+            card.classList.add('selected');
+          }
+        });
+      });
+    });
+  </script>
+
 </body>
 </html>
