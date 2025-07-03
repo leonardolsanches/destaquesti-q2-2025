@@ -1,87 +1,42 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <title>Votação - Destaques Q2 2025</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h1>Votação - Destaques Q2 2025</h1>
+<form method="post" action="{{ url_for('votacao') }}">
+  <h2>Profissionais</h2>
+  <div class="cards-container">
+    {% for prof in dados.profissionais %}
+      <label class="card">
+        <input type="radio" name="voto_profissional" value="{{ prof.id }}" required>
+        <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" width="80" />
+        <div>
+          <strong>{{ prof.id }} - {{ prof.nome }}</strong><br>
+          <em>Gestor: {{ prof.gestor }}</em><br>
+          <p>{{ prof.justificativa }}</p>
+        </div>
+      </label>
+    {% endfor %}
+  </div>
 
-    {% if erro %}
-        <p style="color: red;">{{ erro }}</p>
-    {% endif %}
+  <h2>Líderes</h2>
+  <div class="cards-container">
+    {% for lider in dados.lideres %}
+      <label class="card">
+        <input type="radio" name="voto_lider" value="{{ lider.id }}" required>
+        <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" width="80" />
+        <div>
+          <strong>{{ lider.id }} - {{ lider.nome }}</strong><br>
+          <em>Gestor: {{ lider.gestor }}</em><br>
+          <p>{{ lider.justificativa }}</p>
+        </div>
+      </label>
+    {% endfor %}
+  </div>
 
-    <form method="post" action="{{ url_for('votacao') }}">
-        <label for="voto_profissional">Escolha um Profissional:</label><br>
-        <select id="voto_profissional" name="voto_profissional" required>
-            <option value="" disabled selected>Selecione</option>
-            {% for prof in dados.profissionais %}
-                <option value="{{ prof.id }}">{{ prof.nome }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
+  <h2>Justificativas (opcional)</h2>
+  <select name="justificativa">
+    <option value="" selected>Sem justificativa</option>
+    {% for jus in dados.justificativas %}
+      <option value="{{ jus.id }}">{{ jus.texto }}</option>
+    {% endfor %}
+  </select>
 
-        <label for="voto_lider">Escolha um Líder:</label><br>
-        <select id="voto_lider" name="voto_lider" required>
-            <option value="" disabled selected>Selecione</option>
-            {% for lider in dados.lideres %}
-                <option value="{{ lider.id }}">{{ lider.nome }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-
-        <label for="justificativa">Justificativa (opcional):</label><br>
-        <select id="justificativa" name="justificativa">
-            <option value="" selected>Sem justificativa</option>
-            {% for jus in dados.justificativas %}
-                <option value="{{ jus.id }}">{{ jus.texto }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-
-        <button type="submit">Votar</button>
-    </form>
-
-    <hr>
-
-    <h2>Votos já apurados</h2>
-
-    <h3>Profissionais</h3>
-    <ul>
-        {% if votos.profissionais %}
-            {% for id, qtde in votos.profissionais.items() %}
-                {% for prof in dados.profissionais %}
-                    {% if prof.id == id %}
-                        <li>
-                            <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" width="40" />
-                            {{ prof.nome }}: {{ qtde }}
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            <li>Nenhum voto até o momento</li>
-        {% endif %}
-    </ul>
-
-    <h3>Líderes</h3>
-    <ul>
-        {% if votos.lideres %}
-            {% for id, qtde in votos.lideres.items() %}
-                {% for lider in dados.lideres %}
-                    {% if lider.id == id %}
-                        <li>
-                            <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" width="40" />
-                            {{ lider.nome }}: {{ qtde }}
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            <li>Nenhum voto até o momento</li>
-        {% endif %}
-    </ul>
-
-</body>
-</html>
+  <br><br>
+  <button type="submit">Votar</button>
+</form>
