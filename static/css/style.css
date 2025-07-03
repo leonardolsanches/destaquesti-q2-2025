@@ -1,9 +1,14 @@
+/* ==================== BASE ==================== */
+
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
   background-color: #f9f9f9;
   color: #333;
+  min-height: 100vh;
 }
+
+/* ==================== HEADER ==================== */
 
 .header {
   display: flex;
@@ -16,9 +21,15 @@ body {
   height: 50px;
 }
 
+/* ==================== TITLES ==================== */
+
 h1, h2 {
   color: #c00;
+  margin: 0 0 15px 0;
+  font-weight: 700;
 }
+
+/* ==================== CARDS ==================== */
 
 .cards-container {
   display: flex;
@@ -49,7 +60,8 @@ h1, h2 {
   box-shadow: 0 0 10px rgba(127,23,52,0.7);
 }
 
-.card input[type="radio"] {
+.card input[type="radio"],
+.card input[type="checkbox"] {
   margin-top: 5px;
   cursor: pointer;
   flex-shrink: 0;
@@ -71,11 +83,14 @@ h1, h2 {
   font-size: 1.1em;
   display: block;
   margin-bottom: 5px;
+  font-weight: 700;
 }
 
 .card-info em {
   font-size: 0.9em;
   color: #666;
+  font-style: normal;
+  font-weight: 500;
 }
 
 .justificativa {
@@ -90,6 +105,8 @@ h1, h2 {
   margin-top: 8px;
   color: #7F1734;
 }
+
+/* ==================== BUTTONS ==================== */
 
 .btn-votar {
   background-color: #7F1734;
@@ -109,14 +126,28 @@ h1, h2 {
   background-color: #5a1024;
 }
 
+/* ==================== MESSAGES ==================== */
+
 .error {
-  color: red;
-  font-weight: bold;
+  color: #d93025;
+  font-weight: 700;
   margin-bottom: 15px;
   text-align: center;
+  font-family: Arial, sans-serif;
 }
-/* Container para centralizar o login verticalmente e horizontalmente */
-.login-container {
+
+.success {
+  color: #188038;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+/* ==================== LOGIN PAGE ==================== */
+
+/* Container que centraliza vertical e horizontalmente */
+.login-page {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -125,44 +156,77 @@ h1, h2 {
 }
 
 /* Caixa de login */
-.login-box {
+.login-page .login-box {
+  width: 420px;
   background: white;
   padding: 30px 40px;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  width: 420px;
   text-align: center;
 }
 
-/* Form alinhado lado a lado */
-.login-box form {
+/* Logo na login */
+.login-page .logo {
+  margin-bottom: 20px;
+}
+
+.login-page .logo img {
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+/* Form alinhado vertical, campo e botão centralizados e espaçados */
+.login-page form {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
-/* Campo de e-mail responsivo */
-.login-box input[type=email] {
-  flex: 1;
-  padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
+/* Input e botão com mesma largura, fonte e altura */
+.login-page input[type=email],
+.login-page button {
+  width: 100%;
+  font-family: Arial, sans-serif;
+  font-size: 1.1em;
+  padding: 12px 15px;
   border-radius: 6px;
+  box-sizing: border-box;
+  outline: none;
 }
 
-/* Botão estilizado */
-.login-box button {
+/* Input estilizado */
+.login-page input[type=email] {
+  border: 1px solid #ccc;
+}
+
+/* Botão igual altura, cor e efeito hover */
+.login-page button {
   background-color: #7F1734;
   color: white;
   border: none;
-  padding: 12px 25px;
-  font-size: 1.1em;
-  border-radius: 6px;
   cursor: pointer;
-  min-width: 110px;
   transition: background-color 0.3s;
+  height: 46px;
 }
 
-.login-box button:hover {
+.login-page button:hover {
   background-color: #5a1024;
+}
+
+/* Mensagens login */
+.login-page .error, 
+.login-page .success {
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.login-page .error {
+  color: #d93025;
+}
+
+.login-page .success {
+  color: #188038;
 }
