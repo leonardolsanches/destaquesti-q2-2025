@@ -13,14 +13,16 @@ body {
 
 /* --- Cabeçalhos --- */
 h1 {
-  color: #c00;
+  color: #7F1734;
   margin-bottom: 15px;
+  font-weight: 700;
 }
 
 h2 {
-  color: #c00;
+  color: #7F1734;
   margin-top: 30px;
   margin-bottom: 15px;
+  font-weight: 700;
 }
 
 /* --- Links --- */
@@ -71,8 +73,8 @@ a:hover {
 }
 
 .login-container h1 {
-  color: #c00;
-  font-weight: bold;
+  color: #7F1734;
+  font-weight: 700;
   margin-bottom: 20px;
   font-size: 1.3em;
 }
@@ -115,12 +117,12 @@ a:hover {
 
 .flashes li.error {
   color: #d8000c;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .flashes li.success {
   color: #4f8a10;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 /* --- Página de votação --- */
@@ -137,8 +139,7 @@ a:hover {
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
-  width: 23%; /* 4 cards por linha aproximadamente */
-  min-width: 220px;
+  width: 280px; /* largura fixa para melhor leitura */
   padding: 15px;
   cursor: pointer;
   display: flex;
@@ -197,7 +198,7 @@ a:hover {
 }
 
 .vote-count {
-  font-weight: bold;
+  font-weight: 700;
   font-size: 0.9em;
   margin-top: 8px;
   color: #7F1734;
@@ -224,14 +225,14 @@ a:hover {
 /* Mensagens de erro/sucesso - votação */
 .error {
   color: #d8000c;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 15px;
   text-align: center;
 }
 
 .success {
   color: #4f8a10;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 15px;
   text-align: center;
 }
@@ -245,7 +246,8 @@ a:hover {
 
 .result-container h1 {
   margin-bottom: 30px;
-  color: #c00;
+  color: #7F1734;
+  font-weight: 700;
 }
 
 .result-container table {
@@ -265,7 +267,7 @@ a:hover {
 .result-container th {
   background-color: #d32f2f;
   color: white;
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
