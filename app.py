@@ -5,7 +5,7 @@ import os
 import re
 
 app = Flask(__name__)
-app.secret_key = 'chave-secreta-muito-segura'  # troque por algo forte em produção
+app.secret_key = 'chave-secreta-muito-segura'  # troque por algo seguro em produção
 
 JUSTIFICATIVAS_FILE = os.path.join('dados', 'justificativas.json')
 VOTOS_FILE = os.path.join('dados', 'votos.json')
@@ -85,11 +85,11 @@ def votacao():
         voto_lider = request.form.get('voto_lider')
 
         if not voto_profissionais or len(voto_profissionais) == 0:
-            flash("Selecione pelo menos um profissional (máximo 4).", 'error')
+            flash("Selecione um profissional.", 'error')
             return render_template('votacao.html', dados=dados, votos=votos)
 
-        if len(voto_profissionais) > 4:
-            flash("Você pode selecionar no máximo 4 profissionais.", 'error')
+        if len(voto_profissionais) > 1:
+            flash("Você pode selecionar apenas 1 profissional.", 'error')
             return render_template('votacao.html', dados=dados, votos=votos)
 
         if not voto_lider:
