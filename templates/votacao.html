@@ -7,8 +7,12 @@
 </head>
 <body>
 
-<h1>Profissionais e Líderes Indicados Q2/2025</h1>
-<a href="{{ url_for('logout') }}">Sair</a>
+<div class="votacao-header">
+  <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" />
+  <h1>Votação dos Destaques da TI em Q2/2025</h1>
+</div>
+
+<a href="{{ url_for('logout') }}" style="float:right; margin-bottom:10px;">Sair</a>
 
 <form method="post" action="{{ url_for('votacao') }}">
   <h2>Profissionais (selecione 1)</h2>
