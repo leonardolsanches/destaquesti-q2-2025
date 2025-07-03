@@ -1,13 +1,30 @@
 {
-  "P1": "Liderou o projeto, garantindo que as atividades fossem feitas no prazo e com qualidade na Implementação do PIX Automático, feature do Open Finance, iniciativa BACEN substituta do Débito Automático.",
-  "P2": "Liderou o projeto, garantindo que as atividades fossem feitas no prazo e com qualidade na Migração do modelo de aprovisionamento de todos os Bundles SVA para a plataforma SGVAS.",
-  "P3": "Foi fundamental no projeto MOVE2VIRGINIA com protagonismo e liderança, grande capacidade de alinhamento e entendimento de aspectos cruciais para o sucesso. Também vem assumindo responsabilidades no sistema de Ressarcimento, evidenciando forte senso de pertencimento e comprometimento.",
-  "P4": "Essencial para garantir a estabilidade dos processos e assegurar a aderência técnica às necessidades dos projetos de detalhamento do consumo dos segmentos Pré-Pago, Controle Fácil e Tradicional.",
-  "P5": "Liderança técnica nos projetos modernização do SOA e upgrade do SMP que entregou o primeiro rollout em Bauru-SP e habilitou os próximos rollouts em aproximadamente 10 milhões de assinantes da rede HFC.",
-  "P6": "Referência técnica incontestável, facilitador para diversos times e stakeholders. Durante o Q2, fez a entrega do projeto de Melhoria de Heapsize que trouxe a simplificação de atributos de catálogo e resolveu o problema de quebra de carrinho devido à quantidade de atributos de produtos na jornada do Solar.",
-  "P7": "Excelente trabalho à frente do núcleo de performance melhorando os indicadores do ambiente Salesforce em mais de 40% quando comparado com dezembro/24.",
-  "L1": "André Salgado tem se destacado de forma notável na liderança dos projetos PME, sendo uma peça chave nas transformações em curso. Profissional sempre disponível, a determinação e o foco em conduzir projetos, mesmo diante de desafios, refletem seu comprometimento e profissionalismo. Soube lidar com a velocidade exigida do negócio.",
-  "L2": "Liderou seu time com muito empenho superando obstáculos e conseguindo realizar a entrega antecipada na entrega de Portabilidade Cruzada – CPC, projeto estratégico para o PME com resultado reconhecido pela diretoria de negócios.",
-  "L3": "Possui uma dedicação incansável e se destacou recentemente por estar responsável por muitas frentes críticas e importantes ao mesmo tempo, com destaque ao projeto NFCOM Travas e 6 frentes paralelas do RGC. É muito responsável e busca um alinhamento minucioso entre as frentes envolvidas para mitigar os riscos do projeto e viabilizar a entrega.",
-  "L4": "Realizou um trabalho excepcional junto com o seu time, gerando grande valor para o negócio. Sua habilidade em gerenciar múltiplos projetos simultaneamente, mantendo um alto nível de entrega e resultados, é admirável. A dedicação e o comprometimento não apenas contribuem para o sucesso da equipe, mas também para o fortalecimento dos objetivos organizacionais. Projetos como Esim, PIX, Cross-Sell, eCommerce."
+  "profissionais": [
+    {"id": "P1", "nome": "Antonio Carlos Geraldi"},
+    {"id": "P2", "nome": "Camila Faraco"},
+    {"id": "P3", "nome": "Erick Lima"},
+    {"id": "P4", "nome": "Rafael Oliveira"},
+    {"id": "P5", "nome": "Wilson Souza"},
+    {"id": "P6", "nome": "Eduardo Santos"},
+    {"id": "P7", "nome": "Vagner Ribeiro"},
+    {"id": "P8", "nome": "Tiago Mendes"},
+    {"id": "P9", "nome": "Rosangela Pereira"},
+    {"id": "P10", "nome": "Robson Almeida"}
+  ],
+  "lideres": [
+    {"id": "L1", "nome": "Rosangela Pereira"},
+    {"id": "L2", "nome": "Tiago Mendes"},
+    {"id": "L3", "nome": "Wilson Souza"},
+    {"id": "L4", "nome": "Rafael Oliveira"},
+    {"id": "L5", "nome": "Robson Almeida"},
+    {"id": "L6", "nome": "Vagner Ribeiro"},
+    {"id": "L7", "nome": "Eduardo Santos"}
+  ],
+  "justificativas": [
+    {"id": "J1", "texto": "Melhor desempenho"},
+    {"id": "J2", "texto": "Equipe dedicada"},
+    {"id": "J3", "texto": "Inovação e criatividade"},
+    {"id": "J4", "texto": "Liderança inspiradora"},
+    {"id": "J5", "texto": "Comprometimento excepcional"}
+  ]
 }
