@@ -1,14 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import json
 from datetime import datetime, timedelta
 import os
+import re
 
 app = Flask(__name__)
+app.secret_key = 'chave-secreta-muito-segura'  # troque por algo forte em produção
 
 JUSTIFICATIVAS_FILE = os.path.join('dados', 'justificativas.json')
 VOTOS_FILE = os.path.join('dados', 'votos.json')
+USUARIOS_FILE = os.path.join('dados', 'usuarios.json')
 
 DATA_CORTE = datetime.now().replace(hour=9, minute=0, second=0, microsecond=0) + timedelta(days=1)
+
+EMAIL_REGEX = re.compile(r'^[\w\.-]+@claro\.com\.br$', re.IGNORECASE)
 
 def carregar_justificativas():
     with open(JUSTIFICATIVAS_FILE, 'r', encoding='utf-8') as f:
@@ -29,12 +34,40 @@ def salvar_votos(votos):
     with open(VOTOS_FILE, 'w', encoding='utf-8') as f:
         json.dump(votos, f, ensure_ascii=False, indent=2)
 
-@app.route('/')
-def index():
-    return redirect(url_for('votacao'))
+def carregar_usuarios():
+    try:
+        with open(USUARIOS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+def salvar_usuarios(usuarios):
+    with open(USUARIOS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(usuarios, f, ensure_ascii=False, indent=2)
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip().lower()
+        if not EMAIL_REGEX.match(email):
+            flash('Digite um e-mail válido @claro.com.br', 'error')
+            return render_template('login.html')
+
+        usuarios = carregar_usuarios()
+        if email in usuarios:
+            flash('Este e-mail já votou.', 'error')
+            return redirect(url_for('resultado'))
+
+        session['user_email'] = email
+        return redirect(url_for('votacao'))
+
+    return render_template('login.html')
 
 @app.route('/votacao', methods=['GET', 'POST'])
 def votacao():
+    if 'user_email' not in session:
+        return redirect(url_for('login'))
+
     agora = datetime.now()
     if agora >= DATA_CORTE:
         return redirect(url_for('resultado'))
@@ -42,18 +75,26 @@ def votacao():
     dados = carregar_justificativas()
     votos = carregar_votos()
 
+    usuarios = carregar_usuarios()
+    user_email = session['user_email']
+    if user_email in usuarios:
+        return redirect(url_for('resultado'))
+
     if request.method == 'POST':
         voto_profissionais = request.form.getlist('voto_profissional')
         voto_lider = request.form.get('voto_lider')
 
         if not voto_profissionais or len(voto_profissionais) == 0:
-            return render_template('votacao.html', dados=dados, votos=votos, erro="Selecione pelo menos um profissional (máximo 4).")
+            flash("Selecione pelo menos um profissional (máximo 4).", 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
 
         if len(voto_profissionais) > 4:
-            return render_template('votacao.html', dados=dados, votos=votos, erro="Você pode selecionar no máximo 4 profissionais.")
+            flash("Você pode selecionar no máximo 4 profissionais.", 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
 
         if not voto_lider:
-            return render_template('votacao.html', dados=dados, votos=votos, erro="Selecione um líder.")
+            flash("Selecione um líder.", 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
 
         for prof_id in voto_profissionais:
             votos['profissionais'][prof_id] = votos['profissionais'].get(prof_id, 0) + 1
@@ -61,6 +102,11 @@ def votacao():
         votos['lideres'][voto_lider] = votos['lideres'].get(voto_lider, 0) + 1
 
         salvar_votos(votos)
+
+        usuarios.append(user_email)
+        salvar_usuarios(usuarios)
+
+        flash('Voto registrado com sucesso! Obrigado por participar.', 'success')
         return redirect(url_for('resultado'))
 
     return render_template('votacao.html', dados=dados, votos=votos)
@@ -77,6 +123,11 @@ def resultado():
     dados['lideres'] = ordenar_por_votos(dados['lideres'], votos['lideres'])
 
     return render_template('resultado.html', dados=dados, votos=votos)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

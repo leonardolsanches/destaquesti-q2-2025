@@ -1,0 +1,23 @@
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" />
+      </div>
+      <h2>Digite seu e-mail @claro.com.br</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" action="{{ url_for('login') }}">
+        <input type="email" name="email" placeholder="seu.email@claro.com.br" required autofocus />
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+</body>

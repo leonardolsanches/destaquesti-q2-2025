@@ -15,27 +15,42 @@
       margin-top: 8px;
       color: #7F1734;
     }
+    .error, .success {
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    .error { color: red; }
+    .success { color: green; }
+    .logout {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
   </style>
 </head>
 <body>
+  <a class="logout" href="{{ url_for('logout') }}">Sair</a>
   <header class="header">
     <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo-claro" />
     <h1>Profissionais e Líderes Indicados Q2/2025</h1>
   </header>
 
-  {% set total_votos_profissionais = votos.profissionais.values() | sum %}
-  {% set total_votos_lideres = votos.lideres.values() | sum %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
   <form method="post" action="{{ url_for('votacao') }}">
-    {% if erro %}
-      <p class="error">{{ erro }}</p>
-    {% endif %}
-
     <section>
       <h2>Profissionais (selecione até 4)</h2>
       <div class="cards-container" id="profissionais-container">
         {% for prof in dados.profissionais %}
           {% set votos_prof = votos.profissionais.get(prof.id, 0) %}
+          {% set total_votos_profissionais = votos.profissionais.values() | sum %}
           {% set perc_prof = (votos_prof / total_votos_profissionais * 100) if total_votos_profissionais > 0 else 0 %}
           <label class="card" data-id="{{ prof.id }}" data-group="profissional">
             <input type="checkbox" name="voto_profissional" value="{{ prof.id }}" class="profissional-checkbox" />
@@ -56,6 +71,7 @@
       <div class="cards-container" id="lideres-container">
         {% for lider in dados.lideres %}
           {% set votos_lider = votos.lideres.get(lider.id, 0) %}
+          {% set total_votos_lideres = votos.lideres.values() | sum %}
           {% set perc_lider = (votos_lider / total_votos_lideres * 100) if total_votos_lideres > 0 else 0 %}
           <label class="card" data-id="{{ lider.id }}" data-group="lider">
             <input type="radio" name="voto_lider" value="{{ lider.id }}" required />
