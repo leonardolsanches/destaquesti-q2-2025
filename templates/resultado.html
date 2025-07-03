@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Resultado da Votação - Destaques Q2 2025</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <style>
     body {
@@ -20,6 +21,7 @@
       width: 90%;
       max-width: 900px;
       margin: 40px auto;
+      position: relative;
     }
     .chart-title {
       font-weight: bold;
@@ -50,17 +52,14 @@
   </div>
 
 <script>
-  // Dados para profissionais (ordenados decrescente)
   const profData = {{ votos.profissionais | tojson }};
   const profLabels = Object.keys(profData).sort((a,b) => profData[b] - profData[a]);
   const profValues = profLabels.map(label => profData[label]);
 
-  // Dados para lideres (ordenados decrescente)
   const liderData = {{ votos.lideres | tojson }};
   const liderLabels = Object.keys(liderData).sort((a,b) => liderData[b] - liderData[a]);
   const liderValues = liderLabels.map(label => liderData[label]);
 
-  // Map para nomes
   const profNamesMap = {};
   {% for p in dados.profissionais %}
     profNamesMap["{{ p.id }}"] = "{{ p.nome }}";
@@ -74,49 +73,125 @@
   const profLabelsNamed = profLabels.map(id => profNamesMap[id] || id);
   const liderLabelsNamed = liderLabels.map(id => liderNamesMap[id] || id);
 
-  // Chart para profissionais - vertical, Bordeaux
-  const ctxProf = document.getElementById('profissionaisChart').getContext('2d');
-  new Chart(ctxProf, {
-    type: 'bar',
-    data: {
-      labels: profLabelsNamed,
-      datasets: [{
-        label: 'Votos',
-        data: profValues,
-        backgroundColor: '#7F1734'
-      }]
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true, precision: 0 }
-      },
-      plugins: {
-        legend: { display: false }
-      }
+  // Função para carregar imagens
+  function loadImages(ids, folder, callback){
+    let images = {};
+    let loaded = 0;
+    let total = ids.length;
+    ids.forEach(id => {
+      let img = new Image();
+      img.src = "{{ url_for('static', filename='img/') }}" + id + ".png";
+      img.onload = () => {
+        loaded++;
+        if(loaded === total) callback(images);
+      };
+      img.onerror = () => {
+        loaded++;
+        if(loaded === total) callback(images);
+      };
+      images[id] = img;
+    });
+    if(total === 0) callback(images);
+    return images;
+  }
+
+  const drawImagesPlugin = {
+    id: 'drawImages',
+    afterDatasetsDraw(chart){
+      const ctx = chart.ctx;
+      const meta = chart.getDatasetMeta(0);
+      const chartId = chart.canvas.id;
+      const labels = chart.data.labels;
+      const dataKeys = chartId === 'profissionaisChart' ? profLabels : liderLabels;
+      const images = chartId === 'profissionaisChart' ? profImgs : liderImgs;
+
+      meta.data.forEach((bar, index) => {
+        const centerX = bar.x;
+        const topY = bar.y;
+        const img = images[dataKeys[index]];
+        if(img && img.complete){
+          const imgSize = 30;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(centerX, topY - imgSize/2, imgSize/2, 0, 2 * Math.PI);
+          ctx.clip();
+          ctx.drawImage(img, centerX - imgSize/2, topY - imgSize - 5, imgSize, imgSize);
+          ctx.restore();
+        }
+      });
     }
+  };
+
+  let profImgs = {};
+  let liderImgs = {};
+
+  loadImages(profLabels, 'profissionais', (imgs) => {
+    profImgs = imgs;
+    loadImages(liderLabels, 'lideres', (imgs2) => {
+      liderImgs = imgs2;
+      criarGraficos();
+    });
   });
 
-  // Chart para lideres - vertical, Mostarda Dijon
-  const ctxLider = document.getElementById('lideresChart').getContext('2d');
-  new Chart(ctxLider, {
-    type: 'bar',
-    data: {
-      labels: liderLabelsNamed,
-      datasets: [{
-        label: 'Votos',
-        data: liderValues,
-        backgroundColor: '#D4A41E'
-      }]
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true, precision: 0 }
+  function criarGraficos(){
+    const ctxProf = document.getElementById('profissionaisChart').getContext('2d');
+    new Chart(ctxProf, {
+      type: 'bar',
+      data: {
+        labels: profLabelsNamed,
+        datasets: [{
+          label: 'Votos',
+          data: profValues,
+          backgroundColor: '#7F1734'
+        }]
       },
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
+      options: {
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            color: 'white',
+            anchor: 'center',
+            align: 'center',
+            font: {weight: 'bold', size: 14},
+            formatter: val => val,
+          }
+        },
+        scales: {
+          y: { beginAtZero: true, precision: 0 }
+        }
+      },
+      plugins: [ChartDataLabels, drawImagesPlugin]
+    });
+
+    const ctxLider = document.getElementById('lideresChart').getContext('2d');
+    new Chart(ctxLider, {
+      type: 'bar',
+      data: {
+        labels: liderLabelsNamed,
+        datasets: [{
+          label: 'Votos',
+          data: liderValues,
+          backgroundColor: '#D4A41E'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            color: 'black',
+            anchor: 'center',
+            align: 'center',
+            font: {weight: 'bold', size: 14},
+            formatter: val => val,
+          }
+        },
+        scales: {
+          y: { beginAtZero: true, precision: 0 }
+        }
+      },
+      plugins: [ChartDataLabels, drawImagesPlugin]
+    });
+  }
 </script>
 
 </body>
