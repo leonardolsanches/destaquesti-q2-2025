@@ -1,91 +1,134 @@
-{
-  "profissionais": [
-    {
-      "id": "P1",
-      "nome": "Antonio Carlos Geraldi",
-      "gestor": "Wollinger",
-      "justificativa": "Atuação essencial para o sucesso do projeto PIX Recorrente para o Residencial, demonstrou comprometimento com prazos e qualidade."
-    },
-    {
-      "id": "P2",
-      "nome": "Camila Faraco",
-      "gestor": "Mario",
-      "justificativa": "Liderou projeto garantindo que as atividades fossem feitas no prazo, implementou PIX Automático e BACEN substituindo Débito Automático."
-    },
-    {
-      "id": "P3",
-      "nome": "Diogo Camada",
-      "gestor": "Mezadri",
-      "justificativa": "Protagonismo no projeto MOVE2VIRGINIA, liderou com alinhamento, responsabilidade no sistema de Ressarcimento, evidenciando comprometimento."
-    },
-    {
-      "id": "P4",
-      "nome": "Erick Nakamura",
-      "gestor": "Mezadri",
-      "justificativa": "Relevância na implantação do faturador pré-pago para NFCom, garantindo estabilidade, aderência e controle dos processos."
-    },
-    {
-      "id": "P5",
-      "nome": "José Antenor Penna",
-      "gestor": "Wollinger",
-      "justificativa": "Colaborador “dono” do processo UAT da frente Cobilling do NFCom, aceitou desafio no faturamento Orbili, demonstrando comprometimento."
-    },
-    {
-      "id": "P6",
-      "nome": "Luiz Fernando Gonçalves de Mattos",
-      "gestor": "Wollinger",
-      "justificativa": "Profissional dedicado em projetos NFCom, RGC, Código Único, responsável por entrega crítica no serviço de Acordos de Pagamento (sistema Solar)."
-    },
-    {
-      "id": "P7",
-      "nome": "Rafael dos Santos",
-      "gestor": "Waldir",
-      "justificativa": "Facilitador para diversos times, entregou projeto Melhoria Heapsize, resolveu problema de quebra de carrinho na jornada do Solar."
-    },
-    {
-      "id": "P8",
-      "nome": "Robson Carvalho de Oliveira",
-      "gestor": "Mario",
-      "justificativa": "Liderou projeto para evitar compartilhamento ShortCode SMS, desenvolveu solução garantindo qualidade no prazo."
-    },
-    {
-      "id": "P9",
-      "nome": "Vagner Vieira",
-      "gestor": "Aline",
-      "justificativa": "Liderou núcleo de performance melhorando indicadores Salesforce em mais de 40% comparado a dezembro/24."
-    },
-    {
-      "id": "P10",
-      "nome": "Wilson Neves",
-      "gestor": "Marcus",
-      "justificativa": "Liderança técnica em modernização do SOA e rollout em Bauru-SP, habilitou próximos rollouts para 10 milhões de assinantes."
-    }
-  ],
-  "lideres": [
-    {
-      "id": "L1",
-      "nome": "André Salgado",
-      "gestor": "Aline",
-      "justificativa": "Destaque notável na liderança dos projetos PME, foco em conduzir projetos e determinação diante dos desafios."
-    },
-    {
-      "id": "L2",
-      "nome": "Eduardo Padilha",
-      "gestor": "Marcus",
-      "justificativa": "Liderou com empenho superando obstáculos, entrega antecipada Portabilidade Cruzada CPC, projeto estratégico PME reconhecido pela diretoria."
-    },
-    {
-      "id": "L3",
-      "nome": "Rosangela Teressani",
-      "gestor": "Aline",
-      "justificativa": "Dedicação incansável, responsável por múltiplas frentes críticas, mitigou riscos e viabilizou entrega do projeto NFCom Travas e RGC."
-    },
-    {
-      "id": "L4",
-      "nome": "Tiago Barbosa",
-      "gestor": "Aline",
-      "justificativa": "Trabalho excepcional, gerenciando múltiplos projetos, entregas e resultados admiráveis, contribuindo para o sucesso da equipe."
-    }
-  ],
-  "justificativas": []
-}
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+import json
+from datetime import datetime, timedelta
+import os
+import re
+
+app = Flask(__name__)
+app.secret_key = 'chave-secreta-muito-segura'  # troque por algo seguro em produção
+
+JUSTIFICATIVAS_FILE = os.path.join('dados', 'justificativas.json')
+VOTOS_FILE = os.path.join('dados', 'votos.json')
+USUARIOS_FILE = os.path.join('dados', 'usuarios.json')
+
+DATA_CORTE = datetime.now().replace(hour=9, minute=0, second=0, microsecond=0) + timedelta(days=1)
+
+EMAIL_REGEX = re.compile(r'^[\w\.-]+@claro\.com\.br$', re.IGNORECASE)
+
+def carregar_justificativas():
+    with open(JUSTIFICATIVAS_FILE, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def carregar_votos():
+    try:
+        with open(VOTOS_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            for key in ['profissionais', 'lideres', 'justificativas']:
+                if key not in data or not isinstance(data[key], dict):
+                    data[key] = {}
+            return data
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"profissionais": {}, "lideres": {}, "justificativas": {}}
+
+def salvar_votos(votos):
+    with open(VOTOS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(votos, f, ensure_ascii=False, indent=2)
+
+def carregar_usuarios():
+    try:
+        with open(USUARIOS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+def salvar_usuarios(usuarios):
+    with open(USUARIOS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(usuarios, f, ensure_ascii=False, indent=2)
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip().lower()
+        if not EMAIL_REGEX.match(email):
+            flash('Digite um e-mail válido @claro.com.br', 'error')
+            return render_template('login.html')
+
+        usuarios = carregar_usuarios()
+        if email in usuarios:
+            flash('Este e-mail já votou.', 'error')
+            return redirect(url_for('resultado'))
+
+        session['user_email'] = email
+        return redirect(url_for('votacao'))
+
+    return render_template('login.html')
+
+@app.route('/votacao', methods=['GET', 'POST'])
+def votacao():
+    if 'user_email' not in session:
+        return redirect(url_for('login'))
+
+    agora = datetime.now()
+    if agora >= DATA_CORTE:
+        return redirect(url_for('resultado'))
+
+    dados = carregar_justificativas()
+    votos = carregar_votos()
+
+    usuarios = carregar_usuarios()
+    user_email = session['user_email']
+    if user_email in usuarios:
+        return redirect(url_for('resultado'))
+
+    if request.method == 'POST':
+        voto_profissionais = request.form.getlist('voto_profissional')
+        voto_lider = request.form.get('voto_lider')
+
+        if not voto_profissionais or len(voto_profissionais) == 0:
+            flash("Selecione um profissional.", 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
+
+        if len(voto_profissionais) > 1:
+            flash("Você pode selecionar apenas 1 profissional.", 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
+
+        if not voto_lider:
+            flash("Selecione um líder.", 'error')
+            return render_template('votacao.html', dados=dados, votos=votos)
+
+        for prof_id in voto_profissionais:
+            votos['profissionais'][prof_id] = votos['profissionais'].get(prof_id, 0) + 1
+
+        votos['lideres'][voto_lider] = votos['lideres'].get(voto_lider, 0) + 1
+
+        salvar_votos(votos)
+
+        usuarios.append(user_email)
+        salvar_usuarios(usuarios)
+
+        flash('Voto registrado com sucesso! Obrigado por participar.', 'success')
+        return redirect(url_for('resultado'))
+
+    return render_template('votacao.html', dados=dados, votos=votos)
+
+@app.route('/resultado')
+def resultado():
+    dados = carregar_justificativas()
+    votos = carregar_votos()
+
+    def ordenar_por_votos(lista, votos_dict):
+        return sorted(lista, key=lambda x: votos_dict.get(x['id'], 0), reverse=True)
+
+    dados['profissionais'] = ordenar_por_votos(dados['profissionais'], votos['profissionais'])
+    dados['lideres'] = ordenar_por_votos(dados['lideres'], votos['lideres'])
+
+    return render_template('resultado.html', dados=dados, votos=votos)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
