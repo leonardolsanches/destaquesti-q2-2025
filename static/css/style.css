@@ -16,6 +16,7 @@ h1 {
   color: #7F1734;
   margin-bottom: 15px;
   font-weight: 700;
+  text-align: center; /* centraliza o título */
 }
 
 h2 {
@@ -41,13 +42,16 @@ a:hover {
 /* Cabeçalho da página de votação */
 .votacao-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 .votacao-header img {
   height: 50px;
+  display: block;
 }
 
 .votacao-header h1 {
@@ -70,6 +74,9 @@ a:hover {
 .login-container .logo-claro {
   max-height: 60px;
   margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-container h1 {
@@ -89,6 +96,9 @@ a:hover {
   border: 1px solid #ccc;
   font-size: 1em;
   font-family: inherit;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-container button {
@@ -101,6 +111,9 @@ a:hover {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-container button:hover {
@@ -139,7 +152,6 @@ a:hover {
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
-  width: 280px; /* largura fixa para melhor leitura */
   padding: 15px;
   cursor: pointer;
   display: flex;
@@ -149,6 +161,10 @@ a:hover {
   box-sizing: border-box;
   word-wrap: break-word;
   text-align: left;
+
+  flex: 1 1 280px; /* flex-grow, flex-shrink, flex-basis */
+  max-width: 400px;
+  min-width: 280px;
 }
 
 .card:hover {
@@ -248,6 +264,7 @@ a:hover {
   margin-bottom: 30px;
   color: #7F1734;
   font-weight: 700;
+  text-align: center;
 }
 
 .result-container table {
@@ -312,7 +329,9 @@ form {
     gap: 15px;
   }
   .card {
-    width: 100%;
+    width: 100% !important;
+    min-width: auto !important;
+    max-width: none !important;
   }
   .login-container {
     margin: 40px 10px;
