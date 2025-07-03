@@ -12,20 +12,20 @@
   <h1>Votação dos Destaques da TI em Q2/2025</h1>
 </div>
 
-<a href="{{ url_for('logout') }}" style="float:right; margin-bottom:10px;">Sair</a>
+<a href="{{ url_for('logout') }}">Sair</a>
 
 <form method="post" action="{{ url_for('votacao') }}">
   <h2>Profissionais (selecione 1)</h2>
   <div class="cards-container">
   {% for p in dados.profissionais %}
-    <label class="card {% if votos.profissionais.get(p.id, 0) > 0 %}selected{% endif %}">
+    <label class="card {% if resultado.profissionais.get(p.id, 0) > 0 %}selected{% endif %}">
       <input type="radio" name="voto_profissional" value="{{ p.id }}" />
       <img src="{{ url_for('static', filename='img/' + p.imagem) }}" alt="{{ p.nome }}" />
       <div class="card-info">
         <strong>{{ p.id }} - {{ p.nome }}</strong>
         <em>Gestor: {{ p.gestor }}</em>
         <div class="justificativa">{{ p.justificativa }}</div>
-        <div class="vote-count">Votos: <strong>{{ votos.profissionais.get(p.id, 0) }}</strong></div>
+        <div class="vote-count">Votos: <strong>{{ resultado.profissionais.get(p.id, 0) }}</strong></div>
       </div>
     </label>
   {% endfor %}
@@ -34,14 +34,14 @@
   <h2>Líderes (selecione 1)</h2>
   <div class="cards-container">
   {% for l in dados.lideres %}
-    <label class="card {% if votos.lideres.get(l.id, 0) > 0 %}selected{% endif %}">
+    <label class="card {% if resultado.lideres.get(l.id, 0) > 0 %}selected{% endif %}">
       <input type="radio" name="voto_lider" value="{{ l.id }}" />
       <img src="{{ url_for('static', filename='img/' + l.imagem) }}" alt="{{ l.nome }}" />
       <div class="card-info">
         <strong>{{ l.id }} - {{ l.nome }}</strong>
         <em>Gestor: {{ l.gestor }}</em>
         <div class="justificativa">{{ l.justificativa }}</div>
-        <div class="vote-count">Votos: <strong>{{ votos.lideres.get(l.id, 0) }}</strong></div>
+        <div class="vote-count">Votos: <strong>{{ resultado.lideres.get(l.id, 0) }}</strong></div>
       </div>
     </label>
   {% endfor %}
