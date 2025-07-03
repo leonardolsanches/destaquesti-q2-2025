@@ -1,42 +1,66 @@
-<form method="post" action="{{ url_for('votacao') }}">
-  <h2>Profissionais</h2>
-  <div class="cards-container">
-    {% for prof in dados.profissionais %}
-      <label class="card">
-        <input type="radio" name="voto_profissional" value="{{ prof.id }}" required>
-        <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" width="80" />
-        <div>
-          <strong>{{ prof.id }} - {{ prof.nome }}</strong><br>
-          <em>Gestor: {{ prof.gestor }}</em><br>
-          <p>{{ prof.justificativa }}</p>
-        </div>
-      </label>
-    {% endfor %}
-  </div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Votação - Destaques Q2 2025</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <header class="header">
+    <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo-claro" />
+    <h1>Profissionais e Líderes Indicados Q2/2025</h1>
+  </header>
 
-  <h2>Líderes</h2>
-  <div class="cards-container">
-    {% for lider in dados.lideres %}
-      <label class="card">
-        <input type="radio" name="voto_lider" value="{{ lider.id }}" required>
-        <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" width="80" />
-        <div>
-          <strong>{{ lider.id }} - {{ lider.nome }}</strong><br>
-          <em>Gestor: {{ lider.gestor }}</em><br>
-          <p>{{ lider.justificativa }}</p>
-        </div>
-      </label>
-    {% endfor %}
-  </div>
+  <form method="post" action="{{ url_for('votacao') }}">
+    {% if erro %}
+      <p class="error">{{ erro }}</p>
+    {% endif %}
 
-  <h2>Justificativas (opcional)</h2>
-  <select name="justificativa">
-    <option value="" selected>Sem justificativa</option>
-    {% for jus in dados.justificativas %}
-      <option value="{{ jus.id }}">{{ jus.texto }}</option>
-    {% endfor %}
-  </select>
+    <section>
+      <h2>Profissionais</h2>
+      <div class="cards-container">
+        {% for prof in dados.profissionais %}
+          <label class="card">
+            <input type="radio" name="voto_profissional" value="{{ prof.id }}" required />
+            <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" />
+            <div class="card-info">
+              <strong>{{ prof.id }} - {{ prof.nome }}</strong>
+              <p><em>Gestor: {{ prof.gestor }}</em></p>
+              <p class="justificativa">{{ prof.justificativa }}</p>
+            </div>
+          </label>
+        {% endfor %}
+      </div>
+    </section>
 
-  <br><br>
-  <button type="submit">Votar</button>
-</form>
+    <section>
+      <h2>Líderes</h2>
+      <div class="cards-container">
+        {% for lider in dados.lideres %}
+          <label class="card">
+            <input type="radio" name="voto_lider" value="{{ lider.id }}" required />
+            <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" />
+            <div class="card-info">
+              <strong>{{ lider.id }} - {{ lider.nome }}</strong>
+              <p><em>Gestor: {{ lider.gestor }}</em></p>
+              <p class="justificativa">{{ lider.justificativa }}</p>
+            </div>
+          </label>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section>
+      <h2>Justificativa (opcional)</h2>
+      <select name="justificativa">
+        <option value="" selected>Sem justificativa</option>
+        {% for jus in dados.justificativas %}
+          <option value="{{ jus.id }}">{{ jus.texto }}</option>
+        {% endfor %}
+      </select>
+    </section>
+
+    <button type="submit" class="btn-votar">Votar</button>
+  </form>
+</body>
+</html>
