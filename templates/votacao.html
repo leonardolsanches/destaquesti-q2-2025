@@ -3,111 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <title>Votação - Destaques Q2 2025</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <style>
-    .card.selected {
-      border: 2.5px solid #7F1734;
-      box-shadow: 0 0 10px rgba(127,23,52,0.7);
-    }
-    .vote-count {
-      font-weight: bold;
-      font-size: 0.9em;
-      margin-top: 8px;
-      color: #7F1734;
-    }
-    .error, .success {
-      text-align: center;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    .error { color: red; }
-    .success { color: green; }
-    .logout {
-      position: absolute;
-      right: 20px;
-      top: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <a class="logout" href="{{ url_for('logout') }}">Sair</a>
-  <header class="header">
+  <header>
     <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo-claro" />
     <h1>Profissionais e Líderes Indicados Q2/2025</h1>
+    <a href="{{ url_for('logout') }}">Sair</a>
   </header>
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="{{ category }}">{{ message }}</div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-
+  <h2>Profissionais (selecione 1)</h2>
   <form method="post" action="{{ url_for('votacao') }}">
-    <section>
-      <h2>Profissionais (selecione 1)</h2>
-      <div class="cards-container" id="profissionais-container">
-        {% for prof in dados.profissionais %}
-          {% set votos_prof = votos.profissionais.get(prof.id, 0) %}
-          {% set total_votos_profissionais = votos.profissionais.values() | sum %}
-          {% set perc_prof = (votos_prof / total_votos_profissionais * 100) if total_votos_profissionais > 0 else 0 %}
-          <label class="card" data-id="{{ prof.id }}" data-group="profissional">
-            <input type="radio" name="voto_profissional" value="{{ prof.id }}" required />
-            <img src="{{ url_for('static', filename='img/' + prof.id + '.png') }}" alt="{{ prof.nome }}" />
-            <div class="card-info">
-              <strong>{{ prof.id }} - {{ prof.nome }}</strong>
-              <p><em>Gestor: {{ prof.gestor }}</em></p>
-              <p class="justificativa">{{ prof.justificativa }}</p>
-              <p class="vote-count">{{ votos_prof }} votos ({{ '%.1f' % perc_prof }}%)</p>
-            </div>
-          </label>
-        {% endfor %}
-      </div>
-    </section>
+    <div class="cards-container">
+      {% for p in dados.profissionais %}
+      <label class="card">
+        <input type="radio" name="voto_profissional" value="{{ p.id }}" required>
+        <img src="{{ url_for('static', filename='img/' + p.imagem) }}" alt="{{ p.nome }}">
+        <div class="card-info">
+          <strong>{{ p.nome }}</strong>
+          <em>Gestor: {{ p.gestor }}</em>
+          <div class="justificativa">{{ p.justificativa }}</div>
+        </div>
+      </label>
+      {% endfor %}
+    </div>
 
-    <section>
-      <h2>Líderes (selecione 1)</h2>
-      <div class="cards-container" id="lideres-container">
-        {% for lider in dados.lideres %}
-          {% set votos_lider = votos.lideres.get(lider.id, 0) %}
-          {% set total_votos_lideres = votos.lideres.values() | sum %}
-          {% set perc_lider = (votos_lider / total_votos_lideres * 100) if total_votos_lideres > 0 else 0 %}
-          <label class="card" data-id="{{ lider.id }}" data-group="lider">
-            <input type="radio" name="voto_lider" value="{{ lider.id }}" required />
-            <img src="{{ url_for('static', filename='img/' + lider.id + '.png') }}" alt="{{ lider.nome }}" />
-            <div class="card-info">
-              <strong>{{ lider.id }} - {{ lider.nome }}</strong>
-              <p><em>Gestor: {{ lider.gestor }}</em></p>
-              <p class="justificativa">{{ lider.justificativa }}</p>
-              <p class="vote-count">{{ votos_lider }} votos ({{ '%.1f' % perc_lider }}%)</p>
-            </div>
-          </label>
-        {% endfor %}
-      </div>
-    </section>
+    <h2>Líderes (selecione 1)</h2>
+    <div class="cards-container">
+      {% for l in dados.lideres %}
+      <label class="card">
+        <input type="radio" name="voto_lider" value="{{ l.id }}" required>
+        <img src="{{ url_for('static', filename='img/' + l.imagem) }}" alt="{{ l.nome }}">
+        <div class="card-info">
+          <strong>{{ l.nome }}</strong>
+          <em>Gestor: {{ l.gestor }}</em>
+          <div class="justificativa">{{ l.justificativa }}</div>
+        </div>
+      </label>
+      {% endfor %}
+    </div>
 
     <button type="submit" class="btn-votar">Votar</button>
   </form>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const profRadios = document.querySelectorAll('input[name="voto_profissional"]');
-      profRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-          profRadios.forEach(r => r.closest('.card').classList.remove('selected'));
-          if (this.checked) this.closest('.card').classList.add('selected');
-        });
-      });
-
-      const liderRadios = document.querySelectorAll('input[name="voto_lider"]');
-      liderRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-          liderRadios.forEach(r => r.closest('.card').classList.remove('selected'));
-          if(this.checked) this.closest('.card').classList.add('selected');
-        });
-      });
-    });
-  </script>
 </body>
 </html>
