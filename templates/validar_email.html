@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Validação de E-mail - Destaques Q2 2025</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<meta charset="UTF-8" />
+<title>Login - Validação de E-mail</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="validate-email-container">
-  <div class="validate-email-box">
-    <div class="logo">
-      <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" />
-    </div>
-    <h2>Digite seu e-mail @claro.com.br</h2>
+<body>
+  <div class="login-container">
+    <img src="{{ url_for('static', filename='img/claro_logo.png') }}" alt="Claro Logo" class="logo-claro" />
+    <h1>Digite seu e-mail @claro.com.br</h1>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
+        <ul class="flashes">
         {% for category, message in messages %}
-          <div class="{{ category }}">{{ message }}</div>
+          <li class="{{ category }}">{{ message }}</li>
         {% endfor %}
+        </ul>
       {% endif %}
     {% endwith %}
     <form method="post" action="{{ url_for('validar_email') }}">
-      <input type="email" name="email" placeholder="seu.email@claro.com.br" required autofocus />
-      <button type="submit">Validar</button>
+      <input type="email" name="email" placeholder="exemplo@claro.com.br" required>
+      
+      <label for="gestor">Selecione seu Gestor:</label>
+      <select name="gestor" id="gestor" required>
+        <option value="">-- Selecione --</option>
+        <option value="Aline">Aline</option>
+        <option value="Mario">Mario</option>
+        <option value="Marcus">Marcus</option>
+        <option value="Wollinger">Wollinger</option>
+        <option value="Mezadri">Mezadri</option>
+        <option value="Waldir">Waldir</option>
+      </select>
+      
+      <button type="submit">Entrar</button>
     </form>
   </div>
 </body>
