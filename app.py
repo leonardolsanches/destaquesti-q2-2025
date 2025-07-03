@@ -5,12 +5,9 @@ import os
 
 app = Flask(__name__)
 
-# Arquivos JSON dentro da pasta dados/
 JUSTIFICATIVAS_FILE = os.path.join('dados', 'justificativas.json')
 VOTOS_FILE = os.path.join('dados', 'votos.json')
-RESULTADO_FILE = os.path.join('dados', 'resultado.json')  # se precisar usar
 
-# Define o prazo da votação: amanhã às 9h (horário local)
 DATA_CORTE = datetime.now().replace(hour=9, minute=0, second=0, microsecond=0) + timedelta(days=1)
 
 def carregar_justificativas():
@@ -66,4 +63,5 @@ def resultado():
     return render_template('resultado.html', dados=dados, votos=votos)
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
