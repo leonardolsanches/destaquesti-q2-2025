@@ -1,3 +1,4 @@
+/* Reset básico e fonte */
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -5,6 +6,7 @@ body {
   color: #333;
 }
 
+/* Cabeçalho com logo e título */
 .header {
   display: flex;
   align-items: center;
@@ -16,10 +18,12 @@ body {
   height: 50px;
 }
 
+/* Títulos */
 h1, h2 {
-  color: #c00;
+  color: #c00; /* Vermelho Claro/Claro */
 }
 
+/* Container dos cards */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -27,6 +31,7 @@ h1, h2 {
   margin-bottom: 40px;
 }
 
+/* Card individual */
 .card {
   background: white;
   border: 1px solid #ddd;
@@ -37,18 +42,28 @@ h1, h2 {
   display: flex;
   gap: 15px;
   align-items: flex-start;
-  transition: box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+/* Efeito hover no card */
 .card:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
+/* Borda vermelha bordeaux para o card selecionado */
+.card.selected {
+  border: 2.5px solid #7F1734; /* Bordeaux */
+  box-shadow: 0 0 10px rgba(127,23,52,0.7);
+}
+
+/* Radio button dentro do card */
 .card input[type="radio"] {
   margin-top: 5px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
+/* Imagem circular */
 .card img {
   width: 80px;
   height: 80px;
@@ -57,37 +72,42 @@ h1, h2 {
   flex-shrink: 0;
 }
 
+/* Div com informações do card */
 .card-info {
   flex: 1;
 }
 
+/* Nome e código */
 .card-info strong {
   font-size: 1.1em;
   display: block;
   margin-bottom: 5px;
 }
 
+/* Gestor em itálico */
 .card-info em {
   font-size: 0.9em;
   color: #666;
 }
 
+/* Justificativa no card */
 .justificativa {
   font-size: 0.9em;
   margin-top: 8px;
   color: #444;
 }
 
-select {
-  font-size: 1em;
-  padding: 8px;
-  width: 100%;
-  max-width: 300px;
-  margin-bottom: 20px;
+/* Contador de votos destacado */
+.vote-count {
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-top: 8px;
+  color: #7F1734;
 }
 
+/* Botão votar */
 .btn-votar {
-  background-color: #c00;
+  background-color: #7F1734; /* Bordeaux */
   color: white;
   border: none;
   padding: 12px 25px;
@@ -95,14 +115,32 @@ select {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
+  display: block;
+  margin: 0 auto 40px auto;
+  max-width: 200px;
 }
 
+/* Hover no botão votar */
 .btn-votar:hover {
-  background-color: #a00;
+  background-color: #5a1024;
 }
 
+/* Mensagem de erro */
 .error {
   color: red;
   font-weight: bold;
   margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Ajuste para selects (se usar) */
+select {
+  font-size: 1em;
+  padding: 8px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
